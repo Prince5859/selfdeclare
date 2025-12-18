@@ -45,6 +45,11 @@ const Index = () => {
     return applicantName.trim() && fatherName.trim() && age.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
   };
 
+  // A4 dimensions at 96 DPI (screen): 794px x 1123px
+  // A4 dimensions at 300 DPI (print): 2480px x 3508px
+  const A4_WIDTH_PX = 794;
+  const A4_HEIGHT_PX = 1123;
+
   const handleDownload = async () => {
     if (!documentRef.current) {
       toast.error("दस्तावेज़ लोड नहीं हुआ");
@@ -60,11 +65,16 @@ const Index = () => {
     toast.info("JPG बन रहा है...");
 
     try {
+      // Scale factor to achieve 300 DPI from 96 DPI base
+      const scale = 300 / 96;
+      
       const canvas = await html2canvas(documentRef.current, {
-        scale: 3,
+        scale: scale,
         useCORS: true,
         backgroundColor: '#FFFEF7',
         logging: false,
+        width: A4_WIDTH_PX,
+        height: A4_HEIGHT_PX,
       });
 
       const link = document.createElement('a');
@@ -277,16 +287,17 @@ const Index = () => {
                 दस्तावेज़ प्रीव्यू
               </h2>
 
-              <div
-                ref={documentRef}
-                className="document-paper rounded-lg p-8 md:p-12 mx-auto"
-                style={{
-                  width: '100%',
-                  maxWidth: '210mm',
-                  minHeight: '297mm',
-                  backgroundColor: '#FFFEF7',
-                }}
-              >
+              <div className="overflow-auto">
+                <div
+                  ref={documentRef}
+                  className="document-paper mx-auto p-10 box-border"
+                  style={{
+                    width: `${A4_WIDTH_PX}px`,
+                    height: `${A4_HEIGHT_PX}px`,
+                    backgroundColor: '#FFFEF7',
+                    minWidth: `${A4_WIDTH_PX}px`,
+                  }}
+                >
                 <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
                   <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
                     स्वप्रमाणित घोषणा-पत्र
@@ -341,6 +352,7 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
