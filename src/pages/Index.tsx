@@ -7,6 +7,7 @@ const Index = () => {
   const [applicantName, setApplicantName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [age, setAge] = useState("");
+  const [year, setYear] = useState("");
   const [occupation, setOccupation] = useState("");
   const [address, setAddress] = useState("");
   const [place, setPlace] = useState("");
@@ -18,6 +19,7 @@ const Index = () => {
     setApplicantName("");
     setFatherName("");
     setAge("");
+    setYear("");
     setOccupation("");
     setAddress("");
     setPlace("");
@@ -42,7 +44,7 @@ const Index = () => {
   };
 
   const isFormComplete = () => {
-    return applicantName.trim() && fatherName.trim() && age.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
+    return applicantName.trim() && fatherName.trim() && age.trim() && year.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
   };
 
   const handleDownload = async () => {
@@ -151,6 +153,21 @@ const Index = () => {
                     placeholder="उम्र"
                     min="1"
                     max="150"
+                    className="form-field"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-foreground">
+                    वर्ष <span className="text-destructive">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                    placeholder="जैसे: 2025"
+                    min="1900"
+                    max="2100"
                     className="form-field"
                   />
                 </div>
