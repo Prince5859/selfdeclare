@@ -63,50 +63,59 @@ const Index = () => {
 
     try {
       const canvas = await html2canvas(documentRef.current, {
-        scale: 1.5,
+        scale: 2,
         useCORS: true,
         backgroundColor: '#FFFEF7',
         logging: false,
       });
 
-      // Adjust quality to get file size between 20-50KB
-      let quality = 0.6;
-      let blob: Blob | null = null;
+      // Target file size: 20KB to 50KB
+      const minSize = 20 * 1024;
+      const maxSize = 50 * 1024;
       
-      // Try different quality levels to achieve target size
-      for (let q = 0.6; q >= 0.3; q -= 0.1) {
-        blob = await new Promise<Blob | null>((resolve) => {
-          canvas.toBlob((b) => resolve(b), 'image/jpeg', q);
+      let finalBlob: Blob | null = null;
+      let bestQuality = 0.5;
+      
+      // Binary search for optimal quality
+      let low = 0.1;
+      let high = 0.9;
+      
+      for (let i = 0; i < 8; i++) {
+        const mid = (low + high) / 2;
+        const testBlob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob((b) => resolve(b), 'image/jpeg', mid);
         });
         
-        if (blob && blob.size >= 20000 && blob.size <= 50000) {
-          quality = q;
-          break;
-        }
-        
-        if (blob && blob.size < 20000 && q === 0.6) {
-          // If too small at highest quality, use highest
-          break;
-        }
-        
-        if (blob && blob.size > 50000) {
-          quality = q;
+        if (testBlob) {
+          if (testBlob.size < minSize) {
+            low = mid;
+          } else if (testBlob.size > maxSize) {
+            high = mid;
+          } else {
+            finalBlob = testBlob;
+            bestQuality = mid;
+            break;
+          }
+          finalBlob = testBlob;
+          bestQuality = mid;
         }
       }
-
-      if (!blob) {
-        blob = await new Promise<Blob | null>((resolve) => {
-          canvas.toBlob((b) => resolve(b), 'image/jpeg', quality);
+      
+      // If still not in range, try one more time with best quality found
+      if (!finalBlob || finalBlob.size < minSize || finalBlob.size > maxSize) {
+        finalBlob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob((b) => resolve(b), 'image/jpeg', bestQuality);
         });
       }
 
-      if (blob) {
+      if (finalBlob) {
         const link = document.createElement('a');
         const sanitizedName = applicantName.trim().replace(/\s+/g, '_') || 'Document';
         link.download = `Ghoshna_Patra_${sanitizedName}.jpg`;
-        link.href = URL.createObjectURL(blob);
+        link.href = URL.createObjectURL(finalBlob);
         link.click();
         URL.revokeObjectURL(link.href);
+        console.log(`Downloaded image size: ${(finalBlob.size / 1024).toFixed(2)} KB`);
       }
 
       toast.success("डाउनलोड सफल!");
