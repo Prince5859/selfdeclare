@@ -63,17 +63,51 @@ const Index = () => {
 
     try {
       const canvas = await html2canvas(documentRef.current, {
-        scale: 3,
+        scale: 1.5,
         useCORS: true,
         backgroundColor: '#FFFEF7',
         logging: false,
       });
 
-      const link = document.createElement('a');
-      const sanitizedName = applicantName.trim().replace(/\s+/g, '_') || 'Document';
-      link.download = `Ghoshna_Patra_${sanitizedName}.jpg`;
-      link.href = canvas.toDataURL('image/jpeg', 0.95);
-      link.click();
+      // Adjust quality to get file size between 20-50KB
+      let quality = 0.6;
+      let blob: Blob | null = null;
+      
+      // Try different quality levels to achieve target size
+      for (let q = 0.6; q >= 0.3; q -= 0.1) {
+        blob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob((b) => resolve(b), 'image/jpeg', q);
+        });
+        
+        if (blob && blob.size >= 20000 && blob.size <= 50000) {
+          quality = q;
+          break;
+        }
+        
+        if (blob && blob.size < 20000 && q === 0.6) {
+          // If too small at highest quality, use highest
+          break;
+        }
+        
+        if (blob && blob.size > 50000) {
+          quality = q;
+        }
+      }
+
+      if (!blob) {
+        blob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob((b) => resolve(b), 'image/jpeg', quality);
+        });
+      }
+
+      if (blob) {
+        const link = document.createElement('a');
+        const sanitizedName = applicantName.trim().replace(/\s+/g, '_') || 'Document';
+        link.download = `Ghoshna_Patra_${sanitizedName}.jpg`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
 
       toast.success("डाउनलोड सफल!");
     } catch {
