@@ -296,22 +296,24 @@ const Index = () => {
 
               <div
                 ref={documentRef}
-                className="document-paper rounded-lg p-8 md:p-12 mx-auto"
+                className="document-paper rounded-lg mx-auto border border-foreground/20"
                 style={{
-                  width: '100%',
-                  maxWidth: '210mm',
-                  minHeight: '297mm',
+                  width: '210mm',
+                  height: '297mm',
+                  padding: '20mm',
                   backgroundColor: '#FFFEF7',
+                  boxSizing: 'border-box',
+                  overflow: 'hidden',
                 }}
               >
-                <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
-                  <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
+                <div className="border-b-2 border-foreground/30 pb-3 mb-6">
+                  <h1 className="text-xl font-bold text-center text-foreground tracking-wide">
                     स्वप्रमाणित घोषणा-पत्र
                   </h1>
                 </div>
 
-                <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
-                  <p className="text-justify indent-8">
+                <div className="space-y-4 text-foreground leading-relaxed text-sm">
+                  <p className="text-justify indent-6">
                     मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
                     पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
                     उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
@@ -321,19 +323,19 @@ const Index = () => {
                     प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
                   </p>
 
-                  <p className="text-justify indent-8">
+                  <p className="text-justify indent-6">
                     मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
                   </p>
 
-                  <p className="text-justify indent-8">
+                  <p className="text-justify indent-6">
                     यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
                     तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
                     अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
                   </p>
                 </div>
 
-                <div className="mt-16 space-y-8">
-                  <div className="flex flex-col md:flex-row md:justify-between gap-4 text-foreground">
+                <div className="mt-10 space-y-6">
+                  <div className="flex justify-between gap-4 text-foreground text-sm">
                     <p>
                       <span className="font-semibold">स्थान :</span>{" "}
                       <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
@@ -344,13 +346,13 @@ const Index = () => {
                     </p>
                   </div>
 
-                  <div className="text-right space-y-6 pt-8">
+                  <div className="text-right space-y-4 pt-6">
                     <div>
-                      <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
-                      <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
+                      <p className="font-semibold text-foreground text-sm">आवेदक/आवेदिका के हस्ताक्षर</p>
+                      <div className="mt-2 border-b border-foreground/40 w-40 ml-auto"></div>
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground">
+                      <p className="font-semibold text-foreground text-sm">
                         आवेदक/आवेदिका का नाम :{" "}
                         <span className="underline decoration-dotted underline-offset-4">
                           {getValue(applicantName)}
