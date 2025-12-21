@@ -385,59 +385,48 @@ const Index = () => {
                   backgroundColor: '#FFFEF7',
                 }}
               >
-                <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
-                  <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
-                    स्वप्रमाणित घोषणा-पत्र
-                  </h1>
-                </div>
+                {/* Header */}
+                <p className="text-sm text-foreground/80 underline mb-8">
+                  संख्या– 874/एक–9–2014–रा–9, दिनॉक 16 जून, 2014 का संलग्नक
+                </p>
 
-                <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
-                  <p className="text-justify indent-8">
-                    मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
-                    पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
-                    उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
-                    वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
-                    व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
-                    निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
-                    प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
+                {/* Title */}
+                <h1 className="text-xl md:text-2xl font-bold text-center text-foreground mb-8 underline">
+                  स्वप्रमाणित घोषणा–पत्र
+                </h1>
+
+                {/* Main Content */}
+                <div className="text-foreground leading-loose text-base">
+                  <p className="text-center mb-4">
+                    मैं,<span className="inline-block border-b border-dotted border-foreground min-w-[180px] mx-1">{applicantName.trim() || ''}</span>पुत्र/पुत्री/श्री<span className="inline-block border-b border-dotted border-foreground min-w-[180px] mx-1">{fatherName.trim() || ''}</span>
+                  </p>
+                  
+                  <p className="mb-4">
+                    ...उम्र<span className="inline-block border-b border-dotted border-foreground min-w-[40px] mx-1">{age.trim() || ''}</span>वर्ष<span className="inline-block border-b border-dotted border-foreground min-w-[40px] mx-1">{year.trim() || ''}</span>व्यवसाय<span className="inline-block border-b border-dotted border-foreground min-w-[120px] mx-1">{occupation.trim() || ''}</span>निवासी<span className="inline-block border-b border-dotted border-foreground min-w-[150px] mx-1">{address.trim() || ''}</span>
                   </p>
 
-                  <p className="text-justify indent-8">
-                    मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
-                  </p>
-
-                  <p className="text-justify indent-8">
-                    यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
-                    तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
-                    अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
+                  <p className="text-justify mb-4">
+                    <span className="inline-block border-b border-dotted border-foreground min-w-[200px]"></span>प्रमाणित करते हुये घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं। मैं मिथ्या विवरणों /तथ्यों को देने के परिणामों से भली–भाँति अवगत हूँ। यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं,तो मैं,मेरे विरूद्ध भा0द0वि0 1960 की धारा–199 व 200 एवं प्रभावी किसी अन्य विधि के अंतर्गत अभियोजन एवं दण्ड के लिये,स्वयं उत्तरदायी होऊँगा/होऊँगी।
                   </p>
                 </div>
 
-                <div className="mt-16 space-y-8">
-                  <div className="flex flex-col md:flex-row md:justify-between gap-4 text-foreground">
+                {/* Footer Section */}
+                <div className="mt-12 flex justify-between text-foreground">
+                  <div className="space-y-4">
                     <p>
-                      <span className="font-semibold">स्थान :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
+                      स्थान<span className="inline-block border-b border-dotted border-foreground min-w-[120px] mx-1">{place.trim() || ''}</span>
                     </p>
                     <p>
-                      <span className="font-semibold">दिनांक :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{formatDate(date)}</span>
+                      दिनॉक<span className="inline-block border-b border-dotted border-foreground min-w-[120px] mx-1">{formatDate(date)}</span>
                     </p>
                   </div>
-
-                  <div className="text-right space-y-6 pt-8">
-                    <div>
-                      <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
-                      <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        आवेदक/आवेदिका का नाम :{" "}
-                        <span className="underline decoration-dotted underline-offset-4">
-                          {getValue(applicantName)}
-                        </span>
-                      </p>
-                    </div>
+                  <div className="text-right space-y-4">
+                    <p>
+                      आवेदक/आवेदिका के हस्ताक्षर<span className="inline-block border-b border-dotted border-foreground min-w-[100px] mx-1"></span>
+                    </p>
+                    <p>
+                      आवेदक/आवेदिका का नाम<span className="inline-block border-b border-dotted border-foreground min-w-[120px] mx-1">{applicantName.trim() || ''}</span>
+                    </p>
                   </div>
                 </div>
               </div>
