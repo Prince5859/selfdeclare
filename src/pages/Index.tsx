@@ -331,22 +331,24 @@ const Index = () => {
               </button>
             </div>
             
-            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in">
+            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in overflow-auto">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="w-2 h-8 bg-green-india rounded-full"></span>
                 दस्तावेज़ प्रीव्यू
               </h2>
 
-              <div
-                ref={documentRef}
-                className="document-paper rounded-lg p-8 md:p-12 mx-auto"
-                style={{
-                  width: '100%',
-                  maxWidth: '210mm',
-                  minHeight: '297mm',
-                  backgroundColor: '#FFFEF7',
-                }}
-              >
+              <div className="overflow-auto">
+                <div
+                  ref={documentRef}
+                  className="document-paper rounded-lg mx-auto origin-top"
+                  style={{
+                    width: '210mm',
+                    minHeight: '297mm',
+                    padding: '15mm 20mm',
+                    backgroundColor: '#FFFEF7',
+                    boxSizing: 'border-box',
+                  }}
+                >
                 <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
                   <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
                     स्वप्रमाणित घोषणा-पत्र
@@ -402,6 +404,7 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
