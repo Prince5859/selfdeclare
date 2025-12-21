@@ -444,7 +444,7 @@ const Index = () => {
                 </div>
 
                 <div className="mt-16 space-y-8">
-                  <div className="flex flex-col md:flex-row md:justify-between gap-4 text-foreground">
+                  <div className="flex justify-between gap-4 text-foreground">
                     <p>
                       <span className="font-semibold">स्थान :</span>{" "}
                       <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
