@@ -62,12 +62,53 @@ const Index = () => {
     toast.info("JPG बन रहा है...");
 
     try {
-      const canvas = await html2canvas(documentRef.current, {
+      // A4 dimensions at 96 DPI: 794 x 1123 pixels
+      const A4_WIDTH = 794;
+      const A4_HEIGHT = 1123;
+      const PADDING = 60; // Padding for content
+      
+      // Create a temporary container for A4-sized rendering
+      const tempContainer = document.createElement('div');
+      tempContainer.style.cssText = `
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: ${A4_WIDTH}px;
+        padding: ${PADDING}px;
+        background-color: #FFFEF7;
+        box-sizing: border-box;
+        font-family: inherit;
+      `;
+      tempContainer.innerHTML = documentRef.current.innerHTML;
+      document.body.appendChild(tempContainer);
+      
+      // Capture the content
+      const contentCanvas = await html2canvas(tempContainer, {
         scale: 2,
         useCORS: true,
         backgroundColor: '#FFFEF7',
         logging: false,
+        width: A4_WIDTH,
       });
+      
+      document.body.removeChild(tempContainer);
+      
+      // Create final A4 canvas with proper height (content height + some bottom padding)
+      const contentHeight = Math.min(contentCanvas.height / 2, A4_HEIGHT - 40);
+      const finalHeight = Math.max(contentHeight + 80, A4_HEIGHT * 0.85); // At least 85% of A4 height
+      
+      const finalCanvas = document.createElement('canvas');
+      finalCanvas.width = A4_WIDTH * 2;
+      finalCanvas.height = finalHeight * 2;
+      
+      const ctx = finalCanvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#FFFEF7';
+        ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+        ctx.drawImage(contentCanvas, 0, 0);
+      }
+      
+      const canvas = finalCanvas;
 
       // Target file size: 20KB to 50KB
       const minSize = 20 * 1024;
@@ -331,24 +372,19 @@ const Index = () => {
               </button>
             </div>
             
-            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in overflow-auto">
+            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="w-2 h-8 bg-green-india rounded-full"></span>
                 दस्तावेज़ प्रीव्यू
               </h2>
 
-              <div className="overflow-auto">
-                <div
-                  ref={documentRef}
-                  className="document-paper rounded-lg mx-auto origin-top"
-                  style={{
-                    width: '210mm',
-                    minHeight: '297mm',
-                    padding: '15mm 20mm',
-                    backgroundColor: '#FFFEF7',
-                    boxSizing: 'border-box',
-                  }}
-                >
+              <div
+                ref={documentRef}
+                className="document-paper rounded-lg p-6 md:p-10 mx-auto"
+                style={{
+                  backgroundColor: '#FFFEF7',
+                }}
+              >
                 <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
                   <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
                     स्वप्रमाणित घोषणा-पत्र
@@ -404,7 +440,6 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
