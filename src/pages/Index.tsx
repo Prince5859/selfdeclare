@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
-import { FileText, Download, Loader2, RotateCcw } from "lucide-react";
+import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -13,7 +13,29 @@ const Index = () => {
   const [place, setPlace] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showShareNudge, setShowShareNudge] = useState(false);
+  const [hasShownShareNudge, setHasShownShareNudge] = useState(false);
   const documentRef = useRef<HTMLDivElement>(null);
+
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
+  const handleShare = (platform: 'whatsapp' | 'telegram' | 'copy') => {
+    const shareText = "इस वेबसाइट से आसानी से स्वप्रमाणित घोषणा-पत्र बनाएं - ";
+    const fullUrl = `${shareText}${siteUrl}`;
+    
+    switch (platform) {
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodeURIComponent(fullUrl)}`, '_blank');
+        break;
+      case 'telegram':
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(siteUrl);
+        toast.success("लिंक कॉपी हो गया!");
+        break;
+    }
+  };
 
   const handleReset = () => {
     setApplicantName("");
@@ -160,6 +182,14 @@ const Index = () => {
       }
 
       toast.success("डाउनलोड सफल!");
+      
+      // Show share nudge only once per session
+      if (!hasShownShareNudge) {
+        setTimeout(() => {
+          setShowShareNudge(true);
+          setHasShownShareNudge(true);
+        }, 1500);
+      }
     } catch {
       toast.error("डाउनलोड में त्रुटि हुई");
     } finally {
@@ -446,10 +476,65 @@ const Index = () => {
         </div>
       </main>
 
+      {/* Share Nudge Modal */}
+      {showShareNudge && (
+        <div className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-card rounded-xl p-6 max-w-sm w-full shadow-xl border border-border relative">
+            <button
+              onClick={() => setShowShareNudge(false)}
+              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="बंद करें"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="text-center space-y-4">
+              <p className="text-lg text-foreground">
+                📲 किसी दोस्त को भेजें — उसका भी समय बचेगा।
+              </p>
+              
+              <div className="flex justify-center gap-3 pt-2">
+                <button
+                  onClick={() => handleShare('whatsapp')}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#20BA5C] transition-colors text-sm font-medium"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
+                </button>
+                <button
+                  onClick={() => handleShare('telegram')}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#0088cc] text-white rounded-lg hover:bg-[#0077b5] transition-colors text-sm font-medium"
+                >
+                  <Send className="w-4 h-4" />
+                  Telegram
+                </button>
+                <button
+                  onClick={() => handleShare('copy')}
+                  className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors text-sm font-medium"
+                >
+                  <Link className="w-4 h-4" />
+                  Copy
+                </button>
+              </div>
+              
+              <button
+                onClick={() => setShowShareNudge(false)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors mt-2"
+              >
+                अभी नहीं
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <footer className="bg-card border-t border-border py-4 mt-8">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
+          </p>
+          <p className="text-xs text-green-india/70">
+            💡 अगली बार भी यहीं से बनाएं — आसान, तेज़ और सुरक्षित।
           </p>
         </div>
       </footer>
