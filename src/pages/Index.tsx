@@ -15,6 +15,7 @@ const Index = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showShareNudge, setShowShareNudge] = useState(false);
   const [hasShownShareNudge, setHasShownShareNudge] = useState(false);
+  const [showAffiliate, setShowAffiliate] = useState(false);
   const documentRef = useRef<HTMLDivElement>(null);
 
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
@@ -183,7 +184,8 @@ const Index = () => {
 
       toast.success("डाउनलोड सफल!");
       
-      // Show share nudge only once per session
+      // Show share nudge and affiliate only once per session
+      setShowAffiliate(true);
       if (!hasShownShareNudge) {
         setTimeout(() => {
           setShowShareNudge(true);
@@ -524,6 +526,38 @@ const Index = () => {
                 अभी नहीं
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Affiliate Recommendation - Shows only after download */}
+      {showAffiliate && (
+        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-card rounded-xl p-5 shadow-xl border border-border z-40 animate-fade-in">
+          <button
+            onClick={() => setShowAffiliate(false)}
+            className="absolute top-2 right-2 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="बंद करें"
+          >
+            <X className="w-4 h-4" />
+          </button>
+          
+          <div className="space-y-3">
+            <p className="text-sm text-foreground leading-relaxed pr-4">
+              🖨️ इस घोषणा-पत्र को सही और साफ़ तरीके से प्रिंट करने के लिए Best Budget Printer देखें
+            </p>
+            
+            <a
+              href="https://fktr.in/Wv9Mb50"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              className="block w-full text-center py-3 px-4 bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium rounded-lg transition-colors text-sm"
+            >
+              👉 HP Ink Tank 419 Printer देखें
+            </a>
+            
+            <p className="text-[10px] text-muted-foreground text-center">
+              (यह एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
+            </p>
           </div>
         </div>
       )}
