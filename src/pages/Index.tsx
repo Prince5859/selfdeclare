@@ -576,7 +576,31 @@ const Index = () => {
         </div>
       )}
 
-      <footer className="bg-card border-t border-border py-4 mt-8">
+      {/* Disclaimer Section */}
+      <div className="bg-[#f5f5f5] border-t border-[#e0e0e0] py-5 px-4 select-text">
+        <div className="container mx-auto max-w-3xl">
+          <div className="text-[12px] md:text-[13px] leading-[1.5] text-gray-700 text-center">
+            <p className="font-semibold mb-2">⚠️ अस्वीकरण (Disclaimer):</p>
+            <p className="mb-2">
+              यह वेबसाइट केवल स्वप्रमाणित घोषणा-पत्र (Self Declaration) का प्रारूप / ड्राफ्ट तैयार करने हेतु है,
+              जो आय / जाति / निवास प्रमाण-पत्र जैसे सरकारी आवेदनों में
+              सहायक दस्तावेज (Supporting Document) के रूप में उपयोग किया जा सकता है।
+            </p>
+            <p className="mb-2">
+              यह कोई सरकारी वेबसाइट नहीं है, न ही यह किसी प्रकार का सरकारी प्रमाण-पत्र जारी करती है।
+            </p>
+            <p className="mb-2">
+              घोषणा-पत्र में भरी गई जानकारी की पूर्ण जिम्मेदारी आवेदक की स्वयं की होगी।
+            </p>
+            <p>
+              अंतिम सत्यापन एवं प्रमाण-पत्र जारी करने का अधिकार
+              संबंधित तहसील / एसडीएम / राजस्व विभाग के पास सुरक्षित है।
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <footer className="bg-card border-t border-border py-4">
         <div className="container mx-auto px-4 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
