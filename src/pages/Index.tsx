@@ -530,34 +530,48 @@ const Index = () => {
         </div>
       )}
 
-      {/* Affiliate Recommendation - Shows only after download */}
+      {/* Affiliate Popup - Shows only after download */}
       {showAffiliate && (
-        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-card rounded-xl p-5 shadow-xl border border-border z-40 animate-fade-in">
-          <button
-            onClick={() => setShowAffiliate(false)}
-            className="absolute top-2 right-2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="बंद करें"
+        <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
+          <div 
+            className="bg-gradient-to-b from-amber-50 to-amber-100/80 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-5 py-6 md:py-8 relative"
+            style={{ minHeight: '20vh', maxHeight: '28vh' }}
           >
-            <X className="w-4 h-4" />
-          </button>
-          
-          <div className="space-y-3">
-            <p className="text-sm text-foreground leading-relaxed pr-4">
-              🖨️ इस घोषणा-पत्र को सही और साफ़ तरीके से प्रिंट करने के लिए Best Budget Printer देखें
-            </p>
-            
-            <a
-              href="https://fktr.in/Wv9Mb50"
-              target="_blank"
-              rel="nofollow noopener noreferrer"
-              className="block w-full text-center py-3 px-4 bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium rounded-lg transition-colors text-sm"
+            {/* Close Button */}
+            <button
+              onClick={() => setShowAffiliate(false)}
+              className="absolute top-3 right-4 w-8 h-8 flex items-center justify-center bg-amber-200/60 hover:bg-amber-200 rounded-full text-amber-800 transition-colors"
+              aria-label="बंद करें"
             >
-              👉 HP Ink Tank 419 Printer देखें
-            </a>
+              <X className="w-4 h-4" />
+            </button>
             
-            <p className="text-[10px] text-muted-foreground text-center">
-              (यह एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
-            </p>
+            <div className="max-w-lg mx-auto space-y-4">
+              {/* Title */}
+              <h3 className="text-lg md:text-xl font-bold text-amber-900">
+                🖨️ प्रिंट करना है?
+              </h3>
+              
+              {/* Description */}
+              <p className="text-sm md:text-base text-amber-800 leading-relaxed">
+                इस घोषणा-पत्र को साफ़ और सही तरीके से प्रिंट करने के लिए Best Budget Printer देखें
+              </p>
+              
+              {/* CTA Button */}
+              <a
+                href="https://fktr.in/Wv9Mb50"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="block w-full text-center py-4 px-6 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg text-base md:text-lg"
+              >
+                👉 HP Ink Tank 419 Printer देखें
+              </a>
+              
+              {/* Disclaimer */}
+              <p className="text-[11px] text-amber-700/70 text-center">
+                (यह केवल एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
+              </p>
+            </div>
           </div>
         </div>
       )}
