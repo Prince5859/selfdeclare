@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
+import FeedbackCard from "@/components/FeedbackCard";
 
 const Index = () => {
   const [applicantName, setApplicantName] = useState("");
@@ -16,6 +17,7 @@ const Index = () => {
   const [showShareNudge, setShowShareNudge] = useState(false);
   const [hasShownShareNudge, setHasShownShareNudge] = useState(false);
   const [showAffiliate, setShowAffiliate] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
   const documentRef = useRef<HTMLDivElement>(null);
 
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
@@ -192,6 +194,11 @@ const Index = () => {
           setHasShownShareNudge(true);
         }, 1500);
       }
+      
+      // Show feedback after a delay (after other popups)
+      setTimeout(() => {
+        setShowFeedback(true);
+      }, 2500);
     } catch {
       toast.error("डाउनलोड में त्रुटि हुई");
     } finally {
@@ -575,6 +582,12 @@ const Index = () => {
           </div>
         </div>
       )}
+
+      {/* Feedback Card - Shows only after download */}
+      <FeedbackCard 
+        show={showFeedback} 
+        onClose={() => setShowFeedback(false)} 
+      />
 
       {/* Disclaimer Section */}
       <div className="bg-[#f5f5f5] border-t border-[#e0e0e0] py-5 px-4 select-text">
