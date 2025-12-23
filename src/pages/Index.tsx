@@ -531,55 +531,145 @@ const Index = () => {
       )}
 
       {/* Affiliate Popup - Shows only after download */}
-      {showAffiliate && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
-          <div 
-            className="bg-gradient-to-b from-amber-50 to-amber-100/90 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-5 py-6 md:py-8 relative"
-            style={{ minHeight: '20vh', maxHeight: '30vh' }}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setShowAffiliate(false)}
-              className="absolute top-3 right-4 w-8 h-8 flex items-center justify-center bg-amber-200/60 hover:bg-amber-200 rounded-full text-amber-800 transition-colors"
-              aria-label="बंद करें"
+      {showAffiliate && (() => {
+        // Text variations for dynamic rotation
+        const textVariations = [
+          {
+            title: "🖨️ सही और साफ प्रिंट चाहिए?",
+            text: "सरकारी दस्तावेज़ के लिए sharp और official print जरूरी है",
+            button: "🔥 HP Ink Tank 419 – Trusted Choice"
+          },
+          {
+            title: "⚠️ गलत प्रिंट से फॉर्म रिजेक्ट!",
+            text: "धुंधला या गलत प्रिंट आवेदन रोक सकता है",
+            button: "✅ Safe Printer Option देखें"
+          },
+          {
+            title: "💰 साइबर कैफे का खर्च बचाएं",
+            text: "घर बैठे कम ink cost में सही प्रिंट निकालें",
+            button: "🔥 Best Budget Printer देखें"
+          },
+          {
+            title: "🏛️ Cyber Cafe की पहली पसंद",
+            text: "सरकारी फॉर्म प्रिंट के लिए भरोसेमंद printer",
+            button: "⭐ HP Ink Tank 419 देखें"
+          },
+          {
+            title: "😊 आसान और सुरक्षित प्रिंट",
+            text: "Self Declaration जैसे दस्तावेज़ के लिए perfect",
+            button: "👉 Recommended Printer देखें"
+          },
+          {
+            title: "⏳ आवेदन से पहले ध्यान दें",
+            text: "सबमिट करने से पहले साफ प्रिंट बेहद जरूरी",
+            button: "🔥 Official Print Solution"
+          }
+        ];
+        
+        // Get random variation avoiding immediate repeat
+        const getVariation = () => {
+          const lastIndex = parseInt(localStorage.getItem('lastAffiliateVariation') || '-1');
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * textVariations.length);
+          } while (newIndex === lastIndex && textVariations.length > 1);
+          localStorage.setItem('lastAffiliateVariation', newIndex.toString());
+          return textVariations[newIndex];
+        };
+        
+        const variation = getVariation();
+        
+        // Micro design variations
+        const designVariations = [
+          { borderRadius: 'rounded-[18px]', shadow: 'shadow-lg' },
+          { borderRadius: 'rounded-[16px]', shadow: 'shadow-xl' },
+          { borderRadius: 'rounded-2xl', shadow: 'shadow-lg' }
+        ];
+        const design = designVariations[Math.floor(Math.random() * designVariations.length)];
+        
+        return (
+          <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
+            <div 
+              className="rounded-t-3xl px-5 py-6 md:py-8 relative"
+              style={{ 
+                minHeight: '20vh', 
+                maxHeight: '30vh',
+                background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.15))',
+                boxShadow: '0 -8px 30px hsl(var(--primary) / 0.15)'
+              }}
             >
-              <X className="w-4 h-4" />
-            </button>
-            
-            <div className="max-w-lg mx-auto space-y-3">
-              {/* Title */}
-              <h3 className="text-lg md:text-xl font-bold text-amber-900">
-                🖨️ सही प्रिंट चाहिए?
-              </h3>
-              
-              {/* Description */}
-              <p className="text-sm md:text-base text-amber-800 leading-relaxed">
-                इस घोषणा-पत्र को बिल्कुल साफ, official look में कम खर्च और बिना साइबर कैफे जाए प्रिंट करें
-              </p>
-              
-              {/* Trust Line */}
-              <p className="text-xs text-amber-700/90 flex items-center gap-1">
-                <span>⚠️</span> धुंधला प्रिंट होने पर फॉर्म रिजेक्ट हो सकता है
-              </p>
-              
-              {/* CTA Button */}
-              <a
-                href="https://fktr.in/Wv9Mb50"
-                target="_blank"
-                rel="nofollow sponsored noopener noreferrer"
-                className="animate-slow-pulse block w-full text-center py-4 px-6 bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 hover:from-orange-500 hover:via-amber-500 hover:to-yellow-500 text-amber-950 font-bold rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl text-base md:text-lg"
+              {/* Close Button */}
+              <button
+                onClick={() => setShowAffiliate(false)}
+                className="absolute top-3 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-colors"
+                style={{
+                  backgroundColor: 'hsl(var(--primary) / 0.15)',
+                  color: 'hsl(var(--primary))'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'hsl(var(--accent) / 0.25)';
+                  e.currentTarget.style.color = 'hsl(var(--accent))';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'hsl(var(--primary) / 0.15)';
+                  e.currentTarget.style.color = 'hsl(var(--primary))';
+                }}
+                aria-label="बंद करें"
               >
-                👉 🔥 HP Ink Tank 419 – Govt Documents के लिए Best
-              </a>
+                <X className="w-4 h-4" />
+              </button>
               
-              {/* Disclaimer */}
-              <p className="text-[11px] text-amber-700/70 text-center pt-1">
-                (यह केवल एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
-              </p>
+              <div className="max-w-lg mx-auto space-y-3">
+                {/* Title */}
+                <h3 
+                  className="text-lg md:text-xl font-bold"
+                  style={{ color: 'hsl(var(--primary))' }}
+                >
+                  {variation.title}
+                </h3>
+                
+                {/* Description */}
+                <p 
+                  className="text-sm md:text-base leading-relaxed"
+                  style={{ color: 'hsl(var(--foreground) / 0.85)' }}
+                >
+                  {variation.text}
+                </p>
+                
+                {/* Trust Line */}
+                <p 
+                  className="text-xs flex items-center gap-1"
+                  style={{ color: 'hsl(var(--primary) / 0.8)' }}
+                >
+                  <span>⚠️</span> धुंधला प्रिंट होने पर फॉर्म रिजेक्ट हो सकता है
+                </p>
+                
+                {/* CTA Button */}
+                <a
+                  href="https://fktr.in/Wv9Mb50"
+                  target="_blank"
+                  rel="nofollow sponsored noopener noreferrer"
+                  className={`animate-slow-pulse block w-full text-center py-4 px-6 font-bold ${design.borderRadius} transition-all duration-200 ${design.shadow} hover:shadow-xl text-base md:text-lg`}
+                  style={{
+                    background: 'linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)))',
+                    color: 'hsl(var(--primary-foreground))'
+                  }}
+                >
+                  👉 {variation.button}
+                </a>
+                
+                {/* Disclaimer */}
+                <p 
+                  className="text-[11px] text-center pt-1"
+                  style={{ color: 'hsl(var(--muted-foreground))' }}
+                >
+                  (यह केवल एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Disclaimer Section */}
       <div className="bg-[#f5f5f5] border-t border-[#e0e0e0] py-5 px-4 select-text">
