@@ -534,8 +534,8 @@ const Index = () => {
       {showAffiliate && (
         <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
           <div 
-            className="bg-gradient-to-b from-amber-50 to-amber-100/80 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-5 py-6 md:py-8 relative"
-            style={{ minHeight: '20vh', maxHeight: '28vh' }}
+            className="bg-gradient-to-b from-amber-50 to-amber-100/90 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-5 py-6 md:py-8 relative"
+            style={{ minHeight: '20vh', maxHeight: '30vh' }}
           >
             {/* Close Button */}
             <button
@@ -546,29 +546,34 @@ const Index = () => {
               <X className="w-4 h-4" />
             </button>
             
-            <div className="max-w-lg mx-auto space-y-4">
+            <div className="max-w-lg mx-auto space-y-3">
               {/* Title */}
               <h3 className="text-lg md:text-xl font-bold text-amber-900">
-                🖨️ प्रिंट करना है?
+                🖨️ सही प्रिंट चाहिए?
               </h3>
               
               {/* Description */}
               <p className="text-sm md:text-base text-amber-800 leading-relaxed">
-                इस घोषणा-पत्र को साफ़ और सही तरीके से प्रिंट करने के लिए Best Budget Printer देखें
+                इस घोषणा-पत्र को बिल्कुल साफ, official look में कम खर्च और बिना साइबर कैफे जाए प्रिंट करें
+              </p>
+              
+              {/* Trust Line */}
+              <p className="text-xs text-amber-700/90 flex items-center gap-1">
+                <span>⚠️</span> धुंधला प्रिंट होने पर फॉर्म रिजेक्ट हो सकता है
               </p>
               
               {/* CTA Button */}
               <a
                 href="https://fktr.in/Wv9Mb50"
                 target="_blank"
-                rel="nofollow noopener noreferrer"
-                className="block w-full text-center py-4 px-6 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg text-base md:text-lg"
+                rel="nofollow sponsored noopener noreferrer"
+                className="animate-slow-pulse block w-full text-center py-4 px-6 bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 hover:from-orange-500 hover:via-amber-500 hover:to-yellow-500 text-amber-950 font-bold rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl text-base md:text-lg"
               >
-                👉 HP Ink Tank 419 Printer देखें
+                👉 🔥 HP Ink Tank 419 – Govt Documents के लिए Best
               </a>
               
               {/* Disclaimer */}
-              <p className="text-[11px] text-amber-700/70 text-center">
+              <p className="text-[11px] text-amber-700/70 text-center pt-1">
                 (यह केवल एक सहायक सुझाव है, खरीदना अनिवार्य नहीं है)
               </p>
             </div>
