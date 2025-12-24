@@ -1,9 +1,22 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
+import { useChristmasTheme } from "@/hooks/useChristmasTheme";
 
 const Index = () => {
+  const { isChristmasPeriod } = useChristmasTheme();
+
+  // Apply/remove christmas class on html element
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isChristmasPeriod) {
+      html.classList.add('christmas');
+    } else {
+      html.classList.remove('christmas');
+    }
+    return () => html.classList.remove('christmas');
+  }, [isChristmasPeriod]);
   const [applicantName, setApplicantName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [age, setAge] = useState("");
@@ -202,11 +215,22 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background font-hindi">
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+      <header className={`bg-card border-b border-border shadow-sm sticky top-0 z-50 ${isChristmasPeriod ? 'relative overflow-hidden' : ''}`}>
+        {/* Christmas snow dots background */}
+        {isChristmasPeriod && (
+          <div className="absolute inset-0 opacity-30 pointer-events-none" style={{
+            backgroundImage: `radial-gradient(circle, hsl(var(--christmas-green) / 0.3) 1px, transparent 1px)`,
+            backgroundSize: '20px 20px'
+          }} />
+        )}
+        <div className="container mx-auto px-4 py-4 relative">
           <div className="flex items-center justify-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+            <div className="relative w-10 h-10 bg-primary rounded-full flex items-center justify-center">
               <FileText className="w-5 h-5 text-primary-foreground" />
+              {/* Santa cap on logo */}
+              {isChristmasPeriod && (
+                <span className="absolute -top-2 -right-1 text-lg transform rotate-12">🎅</span>
+              )}
             </div>
             <div className="text-center">
               <h1 className="text-xl md:text-2xl font-bold text-foreground">
@@ -227,7 +251,7 @@ const Index = () => {
           <div className="space-y-4">
             <div className="bg-card rounded-xl p-6 shadow-lg border border-border animate-fade-in">
               <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                <span className="w-2 h-8 bg-primary rounded-full"></span>
+                <span className={`w-2 h-8 rounded-full ${isChristmasPeriod ? 'bg-christmas-red' : 'bg-primary'}`}></span>
                 फॉर्म भरें
               </h2>
 
@@ -365,7 +389,11 @@ const Index = () => {
               <button
                 onClick={handleDownload}
                 disabled={isDownloading || !isFormComplete()}
-                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 ${
+                  isChristmasPeriod 
+                    ? 'bg-gradient-to-r from-christmas-red to-christmas-green text-white' 
+                    : 'btn-primary'
+                }`}
               >
                 {isDownloading ? (
                   <>
@@ -375,7 +403,7 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isChristmasPeriod ? '🎁 JPG डाउनलोड करें' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
@@ -388,7 +416,11 @@ const Index = () => {
               <button
                 onClick={handleDownload}
                 disabled={isDownloading || !isFormComplete()}
-                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 ${
+                  isChristmasPeriod 
+                    ? 'bg-gradient-to-r from-christmas-red to-christmas-green text-white' 
+                    : 'btn-primary'
+                }`}
               >
                 {isDownloading ? (
                   <>
@@ -398,7 +430,7 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isChristmasPeriod ? '🎁 JPG डाउनलोड करें' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
@@ -406,17 +438,23 @@ const Index = () => {
             
             <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                <span className="w-2 h-8 bg-green-india rounded-full"></span>
+                <span className={`w-2 h-8 rounded-full ${isChristmasPeriod ? 'bg-christmas-green' : 'bg-green-india'}`}></span>
                 दस्तावेज़ प्रीव्यू
               </h2>
 
               <div
                 ref={documentRef}
-                className="document-paper rounded-lg p-6 md:p-10 mx-auto"
+                className="document-paper rounded-lg p-6 md:p-10 mx-auto relative"
                 style={{
                   backgroundColor: '#FFFEF7',
                 }}
               >
+                {/* Christmas greeting on document */}
+                {isChristmasPeriod && (
+                  <div className="absolute top-2 right-2 text-xs text-christmas-green font-medium">
+                    🎄 Merry Christmas
+                  </div>
+                )}
                 <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
                   <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
                     स्वप्रमाणित घोषणा-पत्र
@@ -697,10 +735,15 @@ const Index = () => {
 
       <footer className="bg-card border-t border-border py-4">
         <div className="container mx-auto px-4 text-center space-y-2">
+          {isChristmasPeriod && (
+            <p className="text-sm text-christmas-green font-medium">
+              🎄 Merry Christmas | सेवा में सदैव तत्पर
+            </p>
+          )}
           <p className="text-sm text-muted-foreground">
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
           </p>
-          <p className="text-xs text-green-india/70">
+          <p className={`text-xs ${isChristmasPeriod ? 'text-christmas-red/70' : 'text-green-india/70'}`}>
             💡 अगली बार भी यहीं से बनाएं — आसान, तेज़ और सुरक्षित।
           </p>
         </div>

@@ -41,6 +41,38 @@
     --saffron-light: 24 100% 95%;
     --green-india: 120 60% 30%;
     --navy: 220 60% 25%;
+    
+    /* Christmas colors (default fallback - same as normal theme primary/accent) */
+    --christmas-red: 0 70% 45%;
+    --christmas-green: 145 60% 30%;
+    --christmas-gold: 45 80% 55%;
+  }
+
+  /* Christmas Theme (applied via .christmas class on html) */
+  .christmas {
+    --primary: 0 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 145 60% 30%;
+    --accent-foreground: 0 0% 100%;
+    --background: 40 40% 98%;
+    --card: 40 50% 99%;
+    --ring: 0 70% 45%;
+    --christmas-red: 0 70% 45%;
+    --christmas-green: 145 60% 30%;
+    --christmas-gold: 45 80% 55%;
+  }
+
+  .christmas.dark {
+    --primary: 0 65% 55%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 145 55% 40%;
+    --accent-foreground: 0 0% 100%;
+    --background: 30 20% 8%;
+    --card: 30 20% 10%;
+    --ring: 0 65% 55%;
+    --christmas-red: 0 65% 55%;
+    --christmas-green: 145 55% 40%;
+    --christmas-gold: 45 70% 50%;
   }
 
   .dark {
