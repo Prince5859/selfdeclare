@@ -1,7 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
+
+// Christmas theme date check utility
+const isChristmasActive = (): boolean => {
+  const now = new Date();
+  const year = now.getFullYear();
+  
+  // Christmas period: Dec 24, 00:00 to Dec 26, 23:59
+  const startDate = new Date(year, 11, 24, 0, 0, 0); // Dec 24
+  const endDate = new Date(year, 11, 26, 23, 59, 59); // Dec 26
+  
+  return now >= startDate && now <= endDate;
+};
 
 const Index = () => {
   const [applicantName, setApplicantName] = useState("");
@@ -17,6 +29,9 @@ const Index = () => {
   const [hasShownShareNudge, setHasShownShareNudge] = useState(false);
   const [showAffiliate, setShowAffiliate] = useState(false);
   const documentRef = useRef<HTMLDivElement>(null);
+
+  // Auto-detect Christmas theme
+  const isChristmas = useMemo(() => isChristmasActive(), []);
 
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
@@ -200,13 +215,29 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background font-hindi">
+    <div className={`min-h-screen bg-background font-hindi ${isChristmas ? 'christmas-theme' : ''}`}>
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+      <header className={`border-b border-border shadow-sm sticky top-0 z-50 ${isChristmas ? 'christmas-header bg-card' : 'bg-card'}`}>
+        <div className="container mx-auto px-4 py-4 relative z-10">
           <div className="flex items-center justify-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <FileText className="w-5 h-5 text-primary-foreground" />
+            {/* Logo with Santa Cap for Christmas */}
+            <div className="relative">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                <FileText className="w-5 h-5 text-primary-foreground" />
+              </div>
+              {/* Santa Cap */}
+              {isChristmas && (
+                <svg 
+                  className="absolute -top-3 -right-1 w-6 h-6" 
+                  viewBox="0 0 32 32" 
+                  fill="none"
+                  style={{ transform: 'rotate(15deg)' }}
+                >
+                  <path d="M4 24 L16 8 L28 24 L4 24 Z" fill="#8B2635" />
+                  <ellipse cx="16" cy="24" rx="14" ry="3" fill="#F5F5DC" />
+                  <circle cx="16" cy="6" r="3" fill="#F5F5DC" />
+                </svg>
+              )}
             </div>
             <div className="text-center">
               <h1 className="text-xl md:text-2xl font-bold text-foreground">
@@ -375,7 +406,7 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isChristmas ? '🎁 घोषणा-पत्र बनाएँ' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
@@ -398,17 +429,24 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isChristmas ? '🎄 JPG डाउनलोड करें' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
             </div>
             
-            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in">
+            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="w-2 h-8 bg-green-india rounded-full"></span>
                 दस्तावेज़ प्रीव्यू
               </h2>
+
+              {/* Christmas label - only in preview, not in download */}
+              {isChristmas && (
+                <div className="christmas-label">
+                  🎄 Merry Christmas
+                </div>
+              )}
 
               <div
                 ref={documentRef}
@@ -430,7 +468,7 @@ const Index = () => {
                     उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
                     वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
                     व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
-                    निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
+                    निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>,
                     प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
                   </p>
 
@@ -697,6 +735,12 @@ const Index = () => {
 
       <footer className="bg-card border-t border-border py-4">
         <div className="container mx-auto px-4 text-center space-y-2">
+          {/* Christmas festive line */}
+          {isChristmas && (
+            <p className="text-sm font-medium" style={{ color: 'hsl(0, 65%, 35%)' }}>
+              🎄 Merry Christmas | आपकी सेवा में सदैव तत्पर
+            </p>
+          )}
           <p className="text-sm text-muted-foreground">
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
           </p>
