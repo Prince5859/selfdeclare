@@ -56,9 +56,6 @@ export default {
         "saffron-light": "hsl(var(--saffron-light))",
         "green-india": "hsl(var(--green-india))",
         navy: "hsl(var(--navy))",
-        "christmas-red": "hsl(var(--christmas-red))",
-        "christmas-green": "hsl(var(--christmas-green))",
-        "christmas-gold": "hsl(var(--christmas-gold))",
       },
       borderRadius: {
         lg: "var(--radius)",
