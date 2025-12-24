@@ -41,6 +41,43 @@
     --saffron-light: 24 100% 95%;
     --green-india: 120 60% 30%;
     --navy: 220 60% 25%;
+
+    /* Christmas theme tokens (inactive by default) */
+    --christmas-red: 0 65% 35%;
+    --christmas-green: 150 50% 25%;
+    --christmas-gold: 42 75% 55%;
+    --christmas-cream: 40 45% 97%;
+  }
+
+  /* Christmas Theme - Luxury Professional */
+  .christmas-theme {
+    --background: 40 45% 97%;
+    --foreground: 0 20% 20%;
+
+    --card: 40 50% 99%;
+    --card-foreground: 0 20% 20%;
+
+    --popover: 40 50% 99%;
+    --popover-foreground: 0 20% 20%;
+
+    --primary: 0 65% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 35% 92%;
+    --secondary-foreground: 150 50% 20%;
+
+    --muted: 40 25% 92%;
+    --muted-foreground: 0 10% 40%;
+
+    --accent: 150 50% 28%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 0 15% 85%;
+    --input: 40 30% 92%;
+    --ring: 0 65% 35%;
+
+    --paper: 40 50% 97%;
+    --paper-border: 0 15% 80%;
   }
 
   .dark {
@@ -104,16 +141,66 @@
     @apply transition-all duration-200;
   }
 
+  /* Christmas form field focus */
+  .christmas-theme .form-field:focus {
+    @apply ring-2;
+    --tw-ring-color: hsl(var(--christmas-red) / 0.5);
+    border-color: hsl(var(--christmas-red));
+  }
+
   .btn-primary {
     @apply px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold;
     @apply hover:bg-primary/90 active:scale-[0.98] transition-all duration-200;
     @apply shadow-md hover:shadow-lg;
   }
 
+  /* Christmas primary button gradient */
+  .christmas-theme .btn-primary {
+    background: linear-gradient(135deg, hsl(var(--christmas-red)) 0%, hsl(var(--christmas-green)) 100%);
+    @apply shadow-md hover:shadow-lg;
+  }
+
+  .christmas-theme .btn-primary:hover {
+    box-shadow: 0 8px 25px hsl(var(--christmas-red) / 0.2);
+  }
+
   .btn-secondary {
     @apply px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold;
     @apply hover:bg-secondary/80 active:scale-[0.98] transition-all duration-200;
     @apply border border-border;
+  }
+
+  /* Christmas header subtle pattern */
+  .christmas-header {
+    background: linear-gradient(180deg, 
+      hsl(var(--christmas-cream)) 0%, 
+      hsl(var(--card)) 100%
+    );
+    position: relative;
+  }
+
+  .christmas-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L32 15 L30 12 L28 15 Z' fill='%23155724' fill-opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Christmas festive label */
+  .christmas-label {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: linear-gradient(135deg, hsl(var(--christmas-red) / 0.1), hsl(var(--christmas-green) / 0.1));
+    border: 1px solid hsl(var(--christmas-red) / 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: hsl(var(--christmas-red));
+    font-weight: 500;
   }
 }
 
