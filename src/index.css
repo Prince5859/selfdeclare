@@ -43,9 +43,9 @@
     --navy: 220 60% 25%;
   }
 
-  /* New Year Theme - Luxury colors */
+  /* New Year Theme - Festive Luxury Colors */
   .new-year-theme {
-    --background: 220 30% 97%;
+    --background: 220 40% 96%;
     --foreground: 220 60% 15%;
 
     --card: 0 0% 100%;
@@ -54,28 +54,31 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 60% 15%;
 
-    --primary: 220 70% 25%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 220 80% 20%;
+    --primary-foreground: 45 100% 75%;
 
-    --secondary: 220 20% 92%;
+    --secondary: 45 60% 92%;
     --secondary-foreground: 220 60% 20%;
 
     --muted: 220 15% 94%;
     --muted-foreground: 220 20% 45%;
 
-    --accent: 43 80% 55%;
-    --accent-foreground: 220 70% 15%;
+    --accent: 45 100% 55%;
+    --accent-foreground: 220 80% 15%;
 
-    --border: 220 20% 88%;
-    --input: 220 20% 88%;
-    --ring: 220 70% 25%;
+    --border: 45 40% 80%;
+    --input: 45 40% 85%;
+    --ring: 45 100% 55%;
 
     /* New Year specific tokens */
-    --ny-gold: 43 80% 55%;
-    --ny-gold-light: 43 70% 92%;
-    --ny-midnight: 220 70% 25%;
-    --ny-midnight-dark: 220 80% 15%;
-    --ny-silver: 220 10% 75%;
+    --ny-gold: 45 100% 55%;
+    --ny-gold-light: 45 70% 85%;
+    --ny-gold-dark: 40 100% 40%;
+    --ny-midnight: 220 80% 20%;
+    --ny-midnight-dark: 220 85% 12%;
+    --ny-midnight-light: 220 70% 35%;
+    --ny-silver: 220 10% 80%;
+    --ny-cream: 45 50% 97%;
   }
 
   .dark {
@@ -153,12 +156,82 @@
 
   /* New Year Theme Button Override */
   .new-year-theme .btn-primary {
-    @apply bg-gradient-to-r from-[hsl(220,70%,25%)] to-[hsl(220,60%,35%)] shadow-lg;
+    @apply bg-gradient-to-r from-[hsl(45,100%,45%)] to-[hsl(40,100%,55%)] text-[hsl(220,80%,15%)] shadow-lg font-bold;
+    text-shadow: none;
   }
 
   .new-year-theme .btn-primary:hover {
-    box-shadow: 0 4px 20px hsl(43 80% 55% / 0.25);
+    box-shadow: 0 4px 25px hsl(45 100% 55% / 0.5);
+    transform: translateY(-1px);
   }
+
+  /* New Year Card Styling */
+  .new-year-theme .document-paper {
+    border: 2px solid hsl(45 60% 75%);
+    box-shadow: 0 0 20px hsl(45 100% 55% / 0.15);
+  }
+
+  .new-year-theme .form-field {
+    border-color: hsl(45 50% 75%);
+  }
+
+  .new-year-theme .form-field:focus {
+    border-color: hsl(45 100% 55%);
+    box-shadow: 0 0 0 3px hsl(45 100% 55% / 0.15);
+  }
+}
+
+/* New Year Header Gradient */
+.ny-header-gradient {
+  background: linear-gradient(135deg, 
+    hsl(220 85% 12%) 0%, 
+    hsl(220 80% 20%) 30%,
+    hsl(220 70% 25%) 50%,
+    hsl(220 80% 20%) 70%,
+    hsl(220 85% 12%) 100%
+  );
+}
+
+/* Golden Border Decoration */
+.ny-golden-border {
+  position: relative;
+}
+
+.ny-golden-border::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent,
+    hsl(45 100% 55%) 20%,
+    hsl(40 100% 65%) 50%,
+    hsl(45 100% 55%) 80%,
+    transparent
+  );
+}
+
+/* Sparkle animation for New Year */
+@keyframes sparkle {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.ny-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* New Year card wrapper with golden border */
+.ny-card-wrapper {
+  background: linear-gradient(135deg, 
+    hsl(45 100% 55%) 0%,
+    hsl(40 100% 60%) 50%,
+    hsl(45 100% 55%) 100%
+  );
+  padding: 3px;
+  border-radius: 1rem;
 }
 
 @layer utilities {
