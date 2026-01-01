@@ -2,8 +2,10 @@ import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
+import { useNewYearTheme } from "@/hooks/useNewYearTheme";
 
 const Index = () => {
+  const isNewYearTheme = useNewYearTheme();
   const [applicantName, setApplicantName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [age, setAge] = useState("");
@@ -200,9 +202,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background font-hindi">
+    <div className={`min-h-screen bg-background font-hindi ${isNewYearTheme ? 'new-year-theme' : ''}`}>
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50">
+      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50 relative overflow-hidden">
+        {/* New Year Gold Glow Line */}
+        {isNewYearTheme && (
+          <div 
+            className="absolute bottom-0 left-0 right-0 h-[2px]"
+            style={{
+              background: 'linear-gradient(90deg, transparent, hsl(43 80% 55% / 0.6), hsl(43 80% 65% / 0.8), hsl(43 80% 55% / 0.6), transparent)'
+            }}
+          />
+        )}
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
@@ -375,7 +386,7 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isNewYearTheme ? '🎆 JPG डाउनलोड करें' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
@@ -398,15 +409,28 @@ const Index = () => {
                 ) : (
                   <>
                     <Download className="w-5 h-5" />
-                    JPG डाउनलोड करें
+                    {isNewYearTheme ? '🎆 JPG डाउनलोड करें' : 'JPG डाउनलोड करें'}
                   </>
                 )}
               </button>
             </div>
             
-            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in">
+            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
+              {/* New Year Badge - Only in preview, not in download */}
+              {isNewYearTheme && (
+                <div 
+                  className="absolute top-2 right-2 text-[10px] md:text-xs font-medium px-2 py-1 rounded-full z-10"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(43 80% 55% / 0.15), hsl(43 80% 65% / 0.25))',
+                    color: 'hsl(43 60% 35%)',
+                    border: '1px solid hsl(43 80% 55% / 0.3)'
+                  }}
+                >
+                  ✨ Happy New Year 2026
+                </div>
+              )}
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                <span className="w-2 h-8 bg-green-india rounded-full"></span>
+                <span className={`w-2 h-8 rounded-full ${isNewYearTheme ? 'bg-primary' : 'bg-green-india'}`}></span>
                 दस्तावेज़ प्रीव्यू
               </h2>
 
@@ -697,10 +721,19 @@ const Index = () => {
 
       <footer className="bg-card border-t border-border py-4">
         <div className="container mx-auto px-4 text-center space-y-2">
+          {/* New Year Footer Line */}
+          {isNewYearTheme && (
+            <p 
+              className="text-sm font-medium mb-2"
+              style={{ color: 'hsl(43 60% 40%)' }}
+            >
+              ✨ Happy New Year | आपकी सेवा में सदैव तत्पर
+            </p>
+          )}
           <p className="text-sm text-muted-foreground">
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
           </p>
-          <p className="text-xs text-green-india/70">
+          <p className={`text-xs ${isNewYearTheme ? 'text-primary/70' : 'text-green-india/70'}`}>
             💡 अगली बार भी यहीं से बनाएं — आसान, तेज़ और सुरक्षित।
           </p>
         </div>

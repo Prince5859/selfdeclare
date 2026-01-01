@@ -43,6 +43,41 @@
     --navy: 220 60% 25%;
   }
 
+  /* New Year Theme - Luxury colors */
+  .new-year-theme {
+    --background: 220 30% 97%;
+    --foreground: 220 60% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 60% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 60% 15%;
+
+    --primary: 220 70% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 20% 92%;
+    --secondary-foreground: 220 60% 20%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 20% 45%;
+
+    --accent: 43 80% 55%;
+    --accent-foreground: 220 70% 15%;
+
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 220 70% 25%;
+
+    /* New Year specific tokens */
+    --ny-gold: 43 80% 55%;
+    --ny-gold-light: 43 70% 92%;
+    --ny-midnight: 220 70% 25%;
+    --ny-midnight-dark: 220 80% 15%;
+    --ny-silver: 220 10% 75%;
+  }
+
   .dark {
     --background: 30 20% 10%;
     --foreground: 40 30% 96%;
@@ -114,6 +149,15 @@
     @apply px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold;
     @apply hover:bg-secondary/80 active:scale-[0.98] transition-all duration-200;
     @apply border border-border;
+  }
+
+  /* New Year Theme Button Override */
+  .new-year-theme .btn-primary {
+    @apply bg-gradient-to-r from-[hsl(220,70%,25%)] to-[hsl(220,60%,35%)] shadow-lg;
+  }
+
+  .new-year-theme .btn-primary:hover {
+    box-shadow: 0 4px 20px hsl(43 80% 55% / 0.25);
   }
 }
 
