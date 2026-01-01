@@ -204,30 +204,55 @@ const Index = () => {
   return (
     <div className={`min-h-screen bg-background font-hindi ${isNewYearTheme ? 'new-year-theme' : ''}`}>
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50 relative overflow-hidden">
-        {/* New Year Gold Glow Line */}
-        {isNewYearTheme && (
-          <div 
-            className="absolute bottom-0 left-0 right-0 h-[2px]"
-            style={{
-              background: 'linear-gradient(90deg, transparent, hsl(43 80% 55% / 0.6), hsl(43 80% 65% / 0.8), hsl(43 80% 55% / 0.6), transparent)'
-            }}
-          />
-        )}
+      <header className={`${isNewYearTheme ? 'ny-header-gradient ny-golden-border' : 'bg-card border-b border-border'} shadow-sm sticky top-0 z-50 relative overflow-hidden`}>
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <FileText className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div className="text-center">
-              <h1 className="text-xl md:text-2xl font-bold text-foreground">
-                स्वप्रमाणित घोषणा-पत्र जनरेटर
-              </h1>
-              <p className="text-xs md:text-sm text-muted-foreground">
-                भारत सरकार फॉर्मेट में दस्तावेज़ बनाएं
+          {isNewYearTheme ? (
+            // New Year Festive Header
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-2xl ny-sparkle">✨</span>
+                <h1 
+                  className="text-2xl md:text-4xl font-bold italic"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(45 100% 70%) 0%, hsl(40 100% 80%) 50%, hsl(45 100% 70%) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    textShadow: '0 2px 10px hsl(45 100% 55% / 0.3)'
+                  }}
+                >
+                  Happy New Year
+                </h1>
+                <span className="text-2xl ny-sparkle" style={{ animationDelay: '0.5s' }}>✨</span>
+              </div>
+              <p 
+                className="text-4xl md:text-5xl font-bold tracking-wider"
+                style={{
+                  background: 'linear-gradient(180deg, hsl(45 100% 75%) 0%, hsl(40 100% 55%) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                2026
               </p>
             </div>
-          </div>
+          ) : (
+            // Default Header
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                <FileText className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <div className="text-center">
+                <h1 className="text-xl md:text-2xl font-bold text-foreground">
+                  स्वप्रमाणित घोषणा-पत्र जनरेटर
+                </h1>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  भारत सरकार फॉर्मेट में दस्तावेज़ बनाएं
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -236,138 +261,146 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Column - Form */}
           <div className="space-y-4">
-            <div className="bg-card rounded-xl p-6 shadow-lg border border-border animate-fade-in">
-              <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                <span className="w-2 h-8 bg-primary rounded-full"></span>
-                फॉर्म भरें
-              </h2>
+            <div className={isNewYearTheme ? 'ny-card-wrapper' : ''}>
+              <div className={`bg-card rounded-xl p-6 shadow-lg ${isNewYearTheme ? 'border-0' : 'border border-border'} animate-fade-in`}>
+                <h2 className="text-xl font-bold text-foreground mb-2 flex items-center justify-center gap-2">
+                  {isNewYearTheme && <span>📝</span>}
+                  फॉर्म भरें
+                </h2>
+                {isNewYearTheme && (
+                  <p className="text-sm text-muted-foreground text-center mb-4">
+                    घर बैठे फॉर्मेट में स्वप्रमाणित पत्र बनाएं
+                  </p>
+                )}
+                {!isNewYearTheme && <div className="w-2 h-8 bg-primary rounded-full mb-4"></div>}
 
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    आवेदक का नाम <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={applicantName}
-                    onChange={(e) => setApplicantName(e.target.value)}
-                    placeholder="अपना पूरा नाम लिखें"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    पिता का नाम <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={fatherName}
-                    onChange={(e) => setFatherName(e.target.value)}
-                    placeholder="पिता/अभिभावक का नाम"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    उम्र (वर्ष में) <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    placeholder="उम्र"
-                    min="1"
-                    max="150"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    वर्ष <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    placeholder="जैसे: 2025"
-                    min="1900"
-                    max="2100"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    व्यवसाय <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={occupation}
-                    onChange={(e) => setOccupation(e.target.value)}
-                    placeholder="जैसे: नौकरी, व्यापार, छात्र, गृहिणी"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    निवासी (पूरा पता) <span className="text-destructive">*</span>
-                  </label>
-                  <textarea
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="गाँव/मोहल्ला, पोस्ट, थाना, जिला, राज्य, पिन कोड"
-                    rows={3}
-                    className="form-field resize-none"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    स्थान <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={place}
-                    onChange={(e) => setPlace(e.target.value)}
-                    placeholder="जैसे: पटना, दिल्ली, मुंबई"
-                    className="form-field"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    दिनांक <span className="text-destructive">*</span>
-                  </label>
-                  <div className="flex gap-2">
+                <div className="space-y-5">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      आवेदक का नाम <span className="text-destructive">*</span>
+                    </label>
                     <input
-                      type="date"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      className="form-field flex-1"
+                      type="text"
+                      value={applicantName}
+                      onChange={(e) => setApplicantName(e.target.value)}
+                      placeholder="अपना पूरा नाम लिखें"
+                      className="form-field"
                     />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      पिता का नाम <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={fatherName}
+                      onChange={(e) => setFatherName(e.target.value)}
+                      placeholder="पिता/अभिभावक का नाम"
+                      className="form-field"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      उम्र (वर्ष में) <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
+                      placeholder="उम्र"
+                      min="1"
+                      max="150"
+                      className="form-field"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      वर्ष <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                      placeholder="जैसे: 2025"
+                      min="1900"
+                      max="2100"
+                      className="form-field"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      व्यवसाय <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={occupation}
+                      onChange={(e) => setOccupation(e.target.value)}
+                      placeholder="जैसे: नौकरी, व्यापार, छात्र, गृहिणी"
+                      className="form-field"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      निवासी (पूरा पता) <span className="text-destructive">*</span>
+                    </label>
+                    <textarea
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="गाँव/मोहल्ला, पोस्ट, थाना, जिला, राज्य, पिन कोड"
+                      rows={3}
+                      className="form-field resize-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      स्थान <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={place}
+                      onChange={(e) => setPlace(e.target.value)}
+                      placeholder="जैसे: पटना, दिल्ली, मुंबई"
+                      className="form-field"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      दिनांक <span className="text-destructive">*</span>
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="form-field flex-1"
+                      />
+                      <button
+                        type="button"
+                        onClick={setTodayDate}
+                        className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-medium hover:bg-secondary/80 transition-colors whitespace-nowrap"
+                      >
+                        आज की तारीख
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
                     <button
                       type="button"
-                      onClick={setTodayDate}
-                      className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-medium hover:bg-secondary/80 transition-colors whitespace-nowrap"
+                      onClick={handleReset}
+                      className="btn-secondary flex-1 flex items-center justify-center gap-2"
                     >
-                      आज की तारीख
+                      <RotateCcw className="w-4 h-4" />
+                      रीसेट करें
                     </button>
                   </div>
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={handleReset}
-                    className="btn-secondary flex-1 flex items-center justify-center gap-2"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                    रीसेट करें
-                  </button>
                 </div>
               </div>
             </div>
@@ -415,89 +448,117 @@ const Index = () => {
               </button>
             </div>
             
-            <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
-              {/* New Year Badge - Only in preview, not in download */}
-              {isNewYearTheme && (
-                <div 
-                  className="absolute top-2 right-2 text-[10px] md:text-xs font-medium px-2 py-1 rounded-full z-10"
+            <div className={isNewYearTheme ? 'ny-card-wrapper' : ''}>
+              <div className={`bg-card rounded-xl p-4 shadow-lg ${isNewYearTheme ? 'border-0' : 'border border-border'} animate-fade-in relative`}>
+                {/* New Year Badge - Only in preview, not in download */}
+                {isNewYearTheme && (
+                  <div 
+                    className="absolute top-2 right-2 text-[10px] md:text-xs font-medium px-2 py-1 rounded-full z-10 flex items-center gap-1"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(45 100% 55% / 0.2), hsl(45 100% 65% / 0.3))',
+                      color: 'hsl(40 100% 35%)',
+                      border: '1px solid hsl(45 100% 55% / 0.4)'
+                    }}
+                  >
+                    <span className="ny-sparkle">⭐</span> Happy New Year 2026
+                  </div>
+                )}
+                <h2 className="text-xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
+                  {isNewYearTheme && <span>📄</span>}
+                  स्वप्रमाणित घोषणा-पत्र
+                </h2>
+
+                <div
+                  ref={documentRef}
+                  className="document-paper rounded-lg p-6 md:p-10 mx-auto"
                   style={{
-                    background: 'linear-gradient(135deg, hsl(43 80% 55% / 0.15), hsl(43 80% 65% / 0.25))',
-                    color: 'hsl(43 60% 35%)',
-                    border: '1px solid hsl(43 80% 55% / 0.3)'
+                    backgroundColor: '#FFFEF7',
                   }}
                 >
-                  ✨ Happy New Year 2026
-                </div>
-              )}
-              <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                <span className={`w-2 h-8 rounded-full ${isNewYearTheme ? 'bg-primary' : 'bg-green-india'}`}></span>
-                दस्तावेज़ प्रीव्यू
-              </h2>
+                  <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
+                    <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
+                      स्वप्रमाणित घोषणा-पत्र
+                    </h1>
+                  </div>
 
-              <div
-                ref={documentRef}
-                className="document-paper rounded-lg p-6 md:p-10 mx-auto"
-                style={{
-                  backgroundColor: '#FFFEF7',
-                }}
-              >
-                <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
-                  <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
-                    स्वप्रमाणित घोषणा-पत्र
-                  </h1>
-                </div>
-
-                <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
-                  <p className="text-justify indent-8">
-                    मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
-                    पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
-                    उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
-                    वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
-                    व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
-                    निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
-                    प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
-                  </p>
-
-                  <p className="text-justify indent-8">
-                    मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
-                  </p>
-
-                  <p className="text-justify indent-8">
-                    यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
-                    तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
-                    अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
-                  </p>
-                </div>
-
-                <div className="mt-16 space-y-8">
-                  <div className="flex flex-col gap-2 text-foreground">
-                    <p>
-                      <span className="font-semibold">स्थान :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
+                  <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
+                    <p className="text-justify indent-8">
+                      मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
+                      पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
+                      उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
+                      वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
+                      व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
+                      निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
+                      प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
                     </p>
-                    <p>
-                      <span className="font-semibold">दिनांक :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{formatDate(date)}</span>
+
+                    <p className="text-justify indent-8">
+                      मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
+                    </p>
+
+                    <p className="text-justify indent-8">
+                      यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
+                      तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
+                      अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
                     </p>
                   </div>
 
-                  <div className="text-right space-y-6 pt-8">
-                    <div>
-                      <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
-                      <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        आवेदक/आवेदिका का नाम :{" "}
-                        <span className="underline decoration-dotted underline-offset-4">
-                          {getValue(applicantName)}
-                        </span>
+                  <div className="mt-16 space-y-8">
+                    <div className="flex flex-col gap-2 text-foreground">
+                      <p>
+                        <span className="font-semibold">स्थान :</span>{" "}
+                        <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
                       </p>
+                      <p>
+                        <span className="font-semibold">दिनांक :</span>{" "}
+                        <span className="underline decoration-dotted underline-offset-4">{formatDate(date)}</span>
+                      </p>
+                    </div>
+
+                    <div className="text-right space-y-6 pt-8">
+                      <div>
+                        <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
+                        <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">
+                          आवेदक/आवेदिका का नाम :{" "}
+                          <span className="underline decoration-dotted underline-offset-4">
+                            {getValue(applicantName)}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            
+            {/* New Year Preview Footer - Only visible in preview */}
+            {isNewYearTheme && (
+              <div 
+                className="p-4 text-center rounded-lg"
+                style={{
+                  background: 'linear-gradient(135deg, hsl(45 100% 55% / 0.1), hsl(45 100% 65% / 0.15))',
+                  border: '1px solid hsl(45 60% 75%)'
+                }}
+              >
+                <p 
+                  className="text-lg font-bold italic"
+                  style={{
+                    background: 'linear-gradient(135deg, hsl(45 100% 45%) 0%, hsl(40 100% 55%) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
+                  ⭐ Happy New Year! ⭐
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  नया वर्ष आपके जीवन में खुशहाली की, अपार सुख और वैभव बांटे खुशियाँ लाए।
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>
@@ -719,21 +780,33 @@ const Index = () => {
         </div>
       </div>
 
-      <footer className="bg-card border-t border-border py-4">
+      <footer className={`${isNewYearTheme ? 'ny-header-gradient' : 'bg-card border-t border-border'} py-4`}>
         <div className="container mx-auto px-4 text-center space-y-2">
           {/* New Year Footer Line */}
           {isNewYearTheme && (
-            <p 
-              className="text-sm font-medium mb-2"
-              style={{ color: 'hsl(43 60% 40%)' }}
-            >
-              ✨ Happy New Year | आपकी सेवा में सदैव तत्पर
-            </p>
+            <div className="space-y-2 mb-3">
+              <p 
+                className="text-lg font-bold italic"
+                style={{
+                  background: 'linear-gradient(135deg, hsl(45 100% 70%) 0%, hsl(40 100% 80%) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                ⭐ Happy New Year! ⭐
+              </p>
+              <p className="text-xs" style={{ color: 'hsl(45 80% 80%)' }}>
+                नया वर्ष आपके जीवन में खुशहाली की, अपार सुख और वैभव बांटे खुशियाँ लाए।<br/>
+                नया साल आद्भव्यो मापराणाओं और आनंद के नए अवसर ये, आपको और<br/>
+                आपके परिवार को स्वर्वर्ण की ढ़ेरीक शुभकामनाएँ!
+              </p>
+            </div>
           )}
-          <p className="text-sm text-muted-foreground">
+          <p className={`text-sm ${isNewYearTheme ? 'text-[hsl(45,80%,85%)]' : 'text-muted-foreground'}`}>
             यह टूल केवल शैक्षणिक उद्देश्य के लिए है। कानूनी उपयोग से पहले विशेषज्ञ से परामर्श लें।
           </p>
-          <p className={`text-xs ${isNewYearTheme ? 'text-primary/70' : 'text-green-india/70'}`}>
+          <p className={`text-xs ${isNewYearTheme ? 'text-[hsl(45,80%,70%)]' : 'text-green-india/70'}`}>
             💡 अगली बार भी यहीं से बनाएं — आसान, तेज़ और सुरक्षित।
           </p>
         </div>
