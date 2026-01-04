@@ -132,6 +132,24 @@
     font-family: 'Noto Serif Devanagari', serif;
   }
 
+  /* Government scanned document style */
+  .gov-document-paper {
+    background-color: #FAFAFA;
+    font-family: 'Noto Serif Devanagari', 'Mangal', serif;
+    color: #1a1a1a;
+    position: relative;
+  }
+
+  .gov-document-paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.01) 50%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.008) 100%);
+    pointer-events: none;
+  }
+
   .dotted-line {
     border-bottom: 1px dotted hsl(var(--foreground) / 0.5);
   }
