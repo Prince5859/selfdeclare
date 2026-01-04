@@ -141,24 +141,24 @@ const GovDocumentPreview = forwardRef<HTMLDivElement, GovDocumentPreviewProps>(
             </div>
           )}
 
-          {/* Place after "स्थान :" */}
+          {/* Place after "स्थान" */}
           {place && (
             <div style={{
               position: 'absolute',
-              top: '57%',
-              left: '12%',
+              top: '56.5%',
+              left: '14%',
               fontSize: '13px',
             }}>
               {place}
             </div>
           )}
 
-          {/* Date after "दिनांक :" */}
+          {/* Date after "दिनॉक" */}
           {date && (
             <div style={{
               position: 'absolute',
-              top: '60%',
-              left: '12%',
+              top: '59.5%',
+              left: '14%',
               fontSize: '13px',
             }}>
               {formatDate(date)}
