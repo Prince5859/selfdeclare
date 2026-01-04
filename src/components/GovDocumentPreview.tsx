@@ -14,12 +14,11 @@ interface GovDocumentPreviewProps {
 
 const GovDocumentPreview = forwardRef<HTMLDivElement, GovDocumentPreviewProps>(
   ({ applicantName, fatherName, age, occupation, address, place, date, showNewYearBadge }, ref) => {
-    
     const formatDate = (dateStr: string): string => {
-      if (!dateStr) return '';
+      if (!dateStr) return "";
       const d = new Date(dateStr);
-      const day = d.getDate().toString().padStart(2, '0');
-      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const day = d.getDate().toString().padStart(2, "0");
+      const month = (d.getMonth() + 1).toString().padStart(2, "0");
       const yr = d.getFullYear();
       return `${day}/${month}/${yr}`;
     };
@@ -29,34 +28,34 @@ const GovDocumentPreview = forwardRef<HTMLDivElement, GovDocumentPreviewProps>(
         ref={ref}
         className="gov-document-paper relative"
         style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '595px',
-          aspectRatio: '595 / 842',
-          overflow: 'hidden',
+          position: "relative",
+          width: "100%",
+          maxWidth: "595px",
+          margin: "0 auto",
+          overflow: "hidden",
         }}
       >
         {/* Base scanned document image */}
-        <img 
-          src={baseDocument} 
+        <img
+          src={baseDocument}
           alt="Self Declaration Form"
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            display: 'block',
+            width: "100%",
+            height: "auto",
+            display: "block",
           }}
         />
 
         {/* New Year Badge - Only visible in preview, not in download */}
         {showNewYearBadge && (
-          <div 
+          <div
             className="absolute top-2 right-2 text-[10px] font-medium px-2 py-1 rounded z-10 flex items-center gap-1 print:hidden"
             data-html2canvas-ignore="true"
             style={{
-              background: 'linear-gradient(135deg, hsl(45 100% 55% / 0.2), hsl(45 100% 65% / 0.3))',
-              color: 'hsl(40 100% 35%)',
-              border: '1px solid hsl(45 100% 55% / 0.4)'
+              background:
+                "linear-gradient(135deg, hsl(45 100% 55% / 0.2), hsl(45 100% 65% / 0.3))",
+              color: "hsl(40 100% 35%)",
+              border: "1px solid hsl(45 100% 55% / 0.4)",
             }}
           >
             <span>✨</span> Happy New Year 2026
@@ -64,115 +63,141 @@ const GovDocumentPreview = forwardRef<HTMLDivElement, GovDocumentPreviewProps>(
         )}
 
         {/* Text overlays - positioned precisely on dotted lines */}
-        <div 
+        <div
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
+            position: "absolute",
+            inset: 0,
             fontFamily: "'Noto Serif Devanagari', 'Mangal', serif",
-            color: '#1a1a1a',
-            fontSize: '14px',
-            pointerEvents: 'none',
+            color: "#1a1a1a",
+            fontSize: "13px",
+            pointerEvents: "none",
+            lineHeight: 1,
           }}
         >
-          {/* Name after "मैं" - Line 1 */}
+          {/* Name after "मैं" */}
           {applicantName && (
-            <div style={{
-              position: 'absolute',
-              top: '22.5%',
-              left: '10%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "22.9%",
+                left: "11.5%",
+                maxWidth: "41%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {applicantName}
             </div>
           )}
 
           {/* Father/Husband name after "पुत्र/पुत्री/श्री" */}
           {fatherName && (
-            <div style={{
-              position: 'absolute',
-              top: '22.5%',
-              left: '58%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "22.9%",
+                left: "58.8%",
+                maxWidth: "31%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {fatherName}
             </div>
           )}
 
-          {/* Age after "उम्र" */}
+          {/* Age on "उम्र ...... वर्ष" */}
           {age && (
-            <div style={{
-              position: 'absolute',
-              top: '26.2%',
-              left: '13%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "26.55%",
+                left: "13.9%",
+                maxWidth: "10%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {age}
             </div>
           )}
 
           {/* Occupation after "व्यवसाय" */}
           {occupation && (
-            <div style={{
-              position: 'absolute',
-              top: '26.2%',
-              left: '29%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "26.55%",
+                left: "31.3%",
+                maxWidth: "25%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {occupation}
             </div>
           )}
 
           {/* Address after "निवासी" */}
           {address && (
-            <div style={{
-              position: 'absolute',
-              top: '26.2%',
-              left: '60%',
-              fontSize: '13px',
-              maxWidth: '35%',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "26.55%",
+                left: "60.8%",
+                maxWidth: "34%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {address}
             </div>
           )}
 
           {/* Place after "स्थान" */}
           {place && (
-            <div style={{
-              position: 'absolute',
-              top: '56.5%',
-              left: '14%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "52.1%",
+                left: "13.8%",
+                maxWidth: "22%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {place}
             </div>
           )}
 
-          {/* Date after "दिनॉक" */}
+          {/* Date after "दिनांक" */}
           {date && (
-            <div style={{
-              position: 'absolute',
-              top: '59.5%',
-              left: '14%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "55.6%",
+                left: "13.8%",
+                maxWidth: "22%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {formatDate(date)}
             </div>
           )}
 
-          {/* Applicant name at bottom right */}
+          {/* Applicant name at bottom right line */}
           {applicantName && (
-            <div style={{
-              position: 'absolute',
-              top: '60%',
-              left: '72%',
-              fontSize: '13px',
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "55.6%",
+                left: "71.5%",
+                maxWidth: "24%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
               {applicantName}
             </div>
           )}
@@ -182,6 +207,6 @@ const GovDocumentPreview = forwardRef<HTMLDivElement, GovDocumentPreviewProps>(
   }
 );
 
-GovDocumentPreview.displayName = 'GovDocumentPreview';
+GovDocumentPreview.displayName = "GovDocumentPreview";
 
 export default GovDocumentPreview;
