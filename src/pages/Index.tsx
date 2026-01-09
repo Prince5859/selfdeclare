@@ -55,17 +55,18 @@ const Index = () => {
     setDate(new Date().toISOString().split('T')[0]);
   };
 
-  const getValue = (value: string) => {
-    return value.trim() || "____________";
+  const getValue = (value: string, isBlue: boolean = true) => {
+    if (!value.trim()) return <span className="text-foreground">____________</span>;
+    return <span className={isBlue ? "text-blue-600 font-medium" : "text-foreground"} style={isBlue ? { color: '#1d4ed8' } : {}}>{value}</span>;
   };
 
-  const formatDate = (dateStr: string): string => {
-    if (!dateStr) return "____________";
+  const formatDate = (dateStr: string): React.ReactNode => {
+    if (!dateStr) return <span className="text-foreground">____________</span>;
     const d = new Date(dateStr);
     const day = d.getDate().toString().padStart(2, '0');
     const month = (d.getMonth() + 1).toString().padStart(2, '0');
     const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    return <span className="text-blue-600 font-medium" style={{ color: '#1d4ed8' }}>{`${day}/${month}/${year}`}</span>;
   };
 
   const isFormComplete = () => {
@@ -467,7 +468,7 @@ const Index = () => {
                   {/* Right Side - Signature & Name */}
                   <div className="space-y-4 text-right">
                     <p>
-                      आवेदक / आवेदिका के हस्ताक्षर <span className="border-b border-dotted border-foreground/60 px-4 ml-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      आवेदक / आवेदिका के हस्ताक्षर <span className="border-b border-dotted border-foreground/60 px-1 inline-block min-w-[80px]">{applicantName.trim() ? <span className="text-blue-600 font-medium" style={{ color: '#1d4ed8' }}>{applicantName}</span> : <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}</span>
                     </p>
                     <p>
                       आवेदक / आवेदिका का नाम <span className="border-b border-dotted border-foreground/60 px-1">{getValue(applicantName)}</span>
