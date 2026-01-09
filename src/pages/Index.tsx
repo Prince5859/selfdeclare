@@ -429,7 +429,7 @@ const Index = () => {
                 }}
               >
                 {/* Reference Number */}
-                <p className="text-sm text-foreground/80 mb-6 border-b border-foreground/30 pb-2">
+                <p className="text-sm text-foreground/80 mb-6 border-b border-foreground/30 pb-2 text-center">
                   संख्या— 874 / एक–9–2014–सा–9, दिनांक 16 जून, 2014 का संलग्नक
                 </p>
 
