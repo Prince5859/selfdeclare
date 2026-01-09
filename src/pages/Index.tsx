@@ -593,12 +593,11 @@ const Index = () => {
         return (
           <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
             <div 
-              className="rounded-t-3xl px-5 py-6 md:py-8 relative"
+              className="rounded-t-3xl px-5 py-6 md:py-8 relative bg-card border-t border-border"
               style={{ 
                 minHeight: '20vh', 
                 maxHeight: '30vh',
-                background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.15))',
-                boxShadow: '0 -8px 30px hsl(var(--primary) / 0.15)'
+                boxShadow: '0 -8px 30px rgba(0, 0, 0, 0.15)'
               }}
             >
               {/* Close Button */}
