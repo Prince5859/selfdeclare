@@ -461,6 +461,7 @@ const Index = () => {
                   applicantName={applicantName}
                   fatherName={fatherName}
                   age={age}
+                  year={year}
                   occupation={occupation}
                   address={address}
                   place={place}
