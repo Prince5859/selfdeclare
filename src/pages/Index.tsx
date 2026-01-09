@@ -9,7 +9,7 @@ const Index = () => {
   const [applicantName, setApplicantName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [age, setAge] = useState("");
-  const [year, setYear] = useState("");
+  
   const [occupation, setOccupation] = useState("");
   const [address, setAddress] = useState("");
   const [place, setPlace] = useState("");
@@ -44,7 +44,7 @@ const Index = () => {
     setApplicantName("");
     setFatherName("");
     setAge("");
-    setYear("");
+    
     setOccupation("");
     setAddress("");
     setPlace("");
@@ -69,7 +69,7 @@ const Index = () => {
   };
 
   const isFormComplete = () => {
-    return applicantName.trim() && fatherName.trim() && age.trim() && year.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
+    return applicantName.trim() && fatherName.trim() && age.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
   };
 
   const handleDownload = async () => {
@@ -284,20 +284,6 @@ const Index = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    वर्ष <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    placeholder="जैसे: 2025"
-                    min="1900"
-                    max="2100"
-                    className="form-field"
-                  />
-                </div>
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-foreground">
@@ -441,59 +427,51 @@ const Index = () => {
                   backgroundColor: '#FFFEF7',
                 }}
               >
-                <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
-                  <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
-                    स्वप्रमाणित घोषणा-पत्र
-                  </h1>
-                </div>
+                {/* Reference Number */}
+                <p className="text-sm text-foreground/80 mb-6 border-b border-foreground/30 pb-2">
+                  संख्या— 874 / एक–9–2014–सा–9, दिनांक 16 जून, 2014 का संलग्नक
+                </p>
 
-                <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
-                  <p className="text-justify indent-8">
-                    मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
-                    पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
-                    उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
-                    वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
-                    व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
-                    निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
-                    प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
+                {/* Title */}
+                <h1 className="text-xl md:text-2xl font-bold text-center text-foreground mb-8 underline underline-offset-4">
+                  स्वप्रमाणित घोषणा-पत्र
+                </h1>
+
+                {/* Main Body */}
+                <div className="space-y-4 text-foreground leading-[2] text-base md:text-lg text-justify">
+                  <p>
+                    मैं <span className="border-b border-dotted border-foreground/60 px-1">{getValue(applicantName)}</span> पुत्र / पुत्री / श्री <span className="border-b border-dotted border-foreground/60 px-1">{getValue(fatherName)}</span>
                   </p>
-
-                  <p className="text-justify indent-8">
-                    मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
+                  
+                  <p>
+                    उम्र <span className="border-b border-dotted border-foreground/60 px-1">{getValue(age)}</span> वर्ष <span className="border-b border-dotted border-foreground/60 px-1">{getValue(occupation)}</span> व्यवसाय <span className="border-b border-dotted border-foreground/60 px-1">{getValue(address)}</span> निवासी
                   </p>
-
-                  <p className="text-justify indent-8">
-                    यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
-                    तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
-                    अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
+                  
+                  <p>
+                    प्रमाणित करते हुये घोषणा करता / करती हूँ कि आवेदन पत्र में दिये गये विवरण / तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं। मैं मिथ्या विवरणों / तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ। यदि आवेदन पत्र में दिये गये कोई विवरण / तथ्य मिथ्या पाये जाते हैं, तो मैं, मेरे विरुद्ध भारतीय दण्ड संहिता 1960 की धारा–199 व 200 एवं प्रभावी किसी अन्य विधि के अंतर्गत अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा / होऊँगी।
                   </p>
                 </div>
 
-                <div className="mt-16 space-y-8">
-                  <div className="flex flex-col gap-2 text-foreground">
+                {/* Signature Section */}
+                <div className="mt-12 grid grid-cols-2 gap-8 text-foreground">
+                  {/* Left Side - Place & Date */}
+                  <div className="space-y-4">
                     <p>
-                      <span className="font-semibold">स्थान :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
+                      स्थान <span className="border-b border-dotted border-foreground/60 px-1">{getValue(place)}</span>
                     </p>
                     <p>
-                      <span className="font-semibold">दिनांक :</span>{" "}
-                      <span className="underline decoration-dotted underline-offset-4">{formatDate(date)}</span>
+                      दिनांक <span className="border-b border-dotted border-foreground/60 px-1">{formatDate(date)}</span>
                     </p>
                   </div>
-
-                  <div className="text-right space-y-6 pt-8">
-                    <div>
-                      <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
-                      <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">
-                        आवेदक/आवेदिका का नाम :{" "}
-                        <span className="underline decoration-dotted underline-offset-4">
-                          {getValue(applicantName)}
-                        </span>
-                      </p>
-                    </div>
+                  
+                  {/* Right Side - Signature & Name */}
+                  <div className="space-y-4 text-right">
+                    <p>
+                      आवेदक / आवेदिका के हस्ताक्षर <span className="border-b border-dotted border-foreground/60 px-4 ml-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </p>
+                    <p>
+                      आवेदक / आवेदिका का नाम <span className="border-b border-dotted border-foreground/60 px-1">{getValue(applicantName)}</span>
+                    </p>
                   </div>
                 </div>
               </div>
