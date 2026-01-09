@@ -3,7 +3,6 @@ import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
-import GovDocumentPreview from "@/components/GovDocumentPreview";
 
 const Index = () => {
   const isNewYearTheme = useNewYearTheme();
@@ -450,24 +449,88 @@ const Index = () => {
             </div>
             
             <div className={isNewYearTheme ? 'ny-card-wrapper' : ''}>
-              <div className={`bg-white rounded-xl overflow-hidden shadow-lg ${isNewYearTheme ? 'border-0' : ''} animate-fade-in`}>
-                <h2 className="text-xl font-bold text-foreground py-3 px-4 flex items-center justify-center gap-2 bg-muted/30 border-b border-border">
+              <div className={`bg-card rounded-xl p-4 shadow-lg ${isNewYearTheme ? 'border-0' : 'border border-border'} animate-fade-in relative`}>
+                {/* New Year Badge - Only in preview, not in download */}
+                {isNewYearTheme && (
+                  <div 
+                    className="absolute top-2 right-2 text-[10px] md:text-xs font-medium px-2 py-1 rounded-full z-10 flex items-center gap-1"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(45 100% 55% / 0.2), hsl(45 100% 65% / 0.3))',
+                      color: 'hsl(40 100% 35%)',
+                      border: '1px solid hsl(45 100% 55% / 0.4)'
+                    }}
+                  >
+                    <span className="ny-sparkle">⭐</span> Happy New Year 2026
+                  </div>
+                )}
+                <h2 className="text-xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
                   {isNewYearTheme && <span>📄</span>}
-                  दस्तावेज़ पूर्वावलोकन
+                  स्वप्रमाणित घोषणा-पत्र
                 </h2>
 
-                <GovDocumentPreview
+                <div
                   ref={documentRef}
-                  applicantName={applicantName}
-                  fatherName={fatherName}
-                  age={age}
-                  year={year}
-                  occupation={occupation}
-                  address={address}
-                  place={place}
-                  date={date}
-                  showNewYearBadge={isNewYearTheme}
-                />
+                  className="document-paper rounded-lg p-6 md:p-10 mx-auto"
+                  style={{
+                    backgroundColor: '#FFFEF7',
+                  }}
+                >
+                  <div className="border-b-4 border-double border-foreground/30 pb-4 mb-8">
+                    <h1 className="text-2xl md:text-3xl font-bold text-center text-foreground tracking-wide">
+                      स्वप्रमाणित घोषणा-पत्र
+                    </h1>
+                  </div>
+
+                  <div className="space-y-6 text-foreground leading-relaxed text-base md:text-lg">
+                    <p className="text-justify indent-8">
+                      मैं, <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(applicantName)}</span>, 
+                      पुत्र/पुत्री श्री <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(fatherName)}</span>, 
+                      उम्र <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(age)}</span> वर्ष, 
+                      वर्ष <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(year)}</span>, 
+                      व्यवसाय <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(occupation)}</span>, 
+                      निवासी <span className="font-semibold underline decoration-dotted underline-offset-4">{getValue(address)}</span>, 
+                      प्रमाणित करते हुए घोषणा करता/करती हूँ कि आवेदन पत्र में दिये गये विवरण/तथ्य मेरी व्यक्तिगत जानकारी एवं विश्वास में शुद्ध एवं सत्य हैं।
+                    </p>
+
+                    <p className="text-justify indent-8">
+                      मैं मिथ्या विवरण/तथ्यों को देने के परिणामों से भली-भाँति अवगत हूँ।
+                    </p>
+
+                    <p className="text-justify indent-8">
+                      यदि आवेदन पत्र में दिये गये कोई विवरण/तथ्य मिथ्या पाये जाते हैं, 
+                      तो मैं भारतीय दण्ड संहिता 1960 की धारा-199 व 200 एवं किसी अन्य प्रभावी विधि के अंतर्गत 
+                      अभियोजन एवं दण्ड के लिये स्वयं उत्तरदायी होऊँगा/होऊँगी।
+                    </p>
+                  </div>
+
+                  <div className="mt-16 space-y-8">
+                    <div className="flex flex-col gap-2 text-foreground">
+                      <p>
+                        <span className="font-semibold">स्थान :</span>{" "}
+                        <span className="underline decoration-dotted underline-offset-4">{getValue(place)}</span>
+                      </p>
+                      <p>
+                        <span className="font-semibold">दिनांक :</span>{" "}
+                        <span className="underline decoration-dotted underline-offset-4">{formatDate(date)}</span>
+                      </p>
+                    </div>
+
+                    <div className="text-right space-y-6 pt-8">
+                      <div>
+                        <p className="font-semibold text-foreground">आवेदक/आवेदिका के हस्ताक्षर</p>
+                        <div className="mt-2 border-b border-foreground/40 w-48 ml-auto"></div>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">
+                          आवेदक/आवेदिका का नाम :{" "}
+                          <span className="underline decoration-dotted underline-offset-4">
+                            {getValue(applicantName)}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
