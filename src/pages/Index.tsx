@@ -1,8 +1,46 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
+
+// Adsterra Ad Component
+const AdsterraAd = () => {
+  const adContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (adContainerRef.current) {
+      // Set atOptions on window
+      (window as any).atOptions = {
+        'key': 'd7b1614c41a9ac5b377d7e1e544e69d6',
+        'format': 'iframe',
+        'height': 50,
+        'width': 320,
+        'params': {}
+      };
+
+      // Load the script
+      const script = document.createElement('script');
+      script.src = 'https://www.highperformanceformat.com/d7b1614c41a9ac5b377d7e1e544e69d6/invoke.js';
+      script.async = true;
+      adContainerRef.current.appendChild(script);
+
+      return () => {
+        if (adContainerRef.current && script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      };
+    }
+  }, []);
+
+  return (
+    <div 
+      ref={adContainerRef}
+      className="flex justify-center items-center rounded-lg"
+      style={{ width: '320px', height: '50px', margin: '0 auto' }}
+    />
+  );
+};
 
 const Index = () => {
   const isNewYearTheme = useNewYearTheme();
@@ -393,12 +431,8 @@ const Index = () => {
               </button>
               
               {/* Adsterra Ad Section - Mobile */}
-              <div 
-                id="adsterra-ad-mobile" 
-                className="mt-3 flex justify-center items-center bg-muted/30 rounded-lg border border-border"
-                style={{ width: '320px', height: '50px', margin: '12px auto 0' }}
-              >
-                {/* Adsterra ad code will be inserted here */}
+              <div className="mt-3">
+                <AdsterraAd />
               </div>
             </div>
           </div>
@@ -425,13 +459,7 @@ const Index = () => {
               </button>
               
               {/* Adsterra Ad Section - Desktop */}
-              <div 
-                id="adsterra-ad-desktop" 
-                className="flex justify-center items-center bg-muted/30 rounded-lg border border-border"
-                style={{ width: '320px', height: '50px', margin: '0 auto' }}
-              >
-                {/* Adsterra ad code will be inserted here */}
-              </div>
+              <AdsterraAd />
             </div>
             
             <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
