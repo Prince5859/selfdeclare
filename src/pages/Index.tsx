@@ -9,7 +9,7 @@ const Index = () => {
   const [applicantName, setApplicantName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [age, setAge] = useState("");
-  
+  const [year, setYear] = useState("");
   const [occupation, setOccupation] = useState("");
   const [address, setAddress] = useState("");
   const [place, setPlace] = useState("");
@@ -44,7 +44,7 @@ const Index = () => {
     setApplicantName("");
     setFatherName("");
     setAge("");
-    
+    setYear("");
     setOccupation("");
     setAddress("");
     setPlace("");
@@ -70,7 +70,7 @@ const Index = () => {
   };
 
   const isFormComplete = () => {
-    return applicantName.trim() && fatherName.trim() && age.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
+    return applicantName.trim() && fatherName.trim() && age.trim() && year.trim() && occupation.trim() && address.trim() && place.trim() && date.trim();
   };
 
   const handleDownload = async () => {
@@ -270,21 +270,35 @@ const Index = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-foreground">
-                    उम्र (वर्ष में) <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    placeholder="उम्र"
-                    min="1"
-                    max="150"
-                    className="form-field"
-                  />
-                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      उम्र <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
+                      placeholder="उम्र"
+                      min="1"
+                      max="150"
+                      className="form-field"
+                    />
+                  </div>
 
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-foreground">
+                      वर्ष <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                      placeholder="जैसे: 2026"
+                      className="form-field"
+                    />
+                  </div>
+                </div>
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-foreground">
@@ -377,12 +391,21 @@ const Index = () => {
                   </>
                 )}
               </button>
+              
+              {/* Adsterra Ad Section - Mobile */}
+              <div 
+                id="adsterra-ad-mobile" 
+                className="mt-3 flex justify-center items-center bg-muted/30 rounded-lg border border-border"
+                style={{ width: '320px', height: '50px', margin: '12px auto 0' }}
+              >
+                {/* Adsterra ad code will be inserted here */}
+              </div>
             </div>
           </div>
 
           {/* Right Column - Preview */}
           <div className="space-y-4">
-            <div className="hidden lg:block">
+            <div className="hidden lg:block space-y-3">
               <button
                 onClick={handleDownload}
                 disabled={isDownloading || !isFormComplete()}
@@ -400,6 +423,15 @@ const Index = () => {
                   </>
                 )}
               </button>
+              
+              {/* Adsterra Ad Section - Desktop */}
+              <div 
+                id="adsterra-ad-desktop" 
+                className="flex justify-center items-center bg-muted/30 rounded-lg border border-border"
+                style={{ width: '320px', height: '50px', margin: '0 auto' }}
+              >
+                {/* Adsterra ad code will be inserted here */}
+              </div>
             </div>
             
             <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
@@ -445,7 +477,7 @@ const Index = () => {
                   </p>
                   
                   <p>
-                    उम्र <span className="border-b border-dotted border-foreground/60 px-1">{getValue(age)}</span> वर्ष <span className="border-b border-dotted border-foreground/60 px-1">{getValue(occupation)}</span> व्यवसाय <span className="border-b border-dotted border-foreground/60 px-1">{getValue(address)}</span> निवासी
+                    उम्र <span className="border-b border-dotted border-foreground/60 px-1">{getValue(age)}</span> वर्ष <span className="border-b border-dotted border-foreground/60 px-1">{getValue(year)}</span> व्यवसाय <span className="border-b border-dotted border-foreground/60 px-1">{getValue(occupation)}</span> निवासी <span className="border-b border-dotted border-foreground/60 px-1">{getValue(address)}</span>
                   </p>
                   
                   <p>
