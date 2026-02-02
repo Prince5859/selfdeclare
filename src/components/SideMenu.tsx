@@ -29,10 +29,10 @@ const SideMenu = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="fixed top-4 left-4 z-50 bg-card/80 backdrop-blur-sm border border-border shadow-md hover:bg-accent"
+          className="fixed top-3 left-3 z-[60] bg-card backdrop-blur-sm border border-border shadow-lg hover:bg-accent"
           aria-label="मेनू खोलें"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0">
