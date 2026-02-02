@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
+import SideMenu from "@/components/SideMenu";
 
 // Adsterra Ad Component
 const AdsterraAd = () => {
@@ -242,6 +243,8 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen bg-background font-hindi ${isNewYearTheme ? 'new-year-theme' : ''}`}>
+      <SideMenu />
+      
       {/* Header */}
       <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50 relative overflow-hidden">
         {/* New Year Gold Glow Line */}
