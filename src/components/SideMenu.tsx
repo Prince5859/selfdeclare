@@ -32,7 +32,7 @@ const SideMenu = () => {
           className="fixed top-3 left-3 z-[60] bg-transparent hover:bg-transparent border-none shadow-none"
           aria-label="मेनू खोलें"
         >
-          <Menu className="h-6 w-6 text-border" />
+          <Menu className="h-6 w-6 text-primary" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0">
