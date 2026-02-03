@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
-import { Upload, FileText, Download, Plus, Trash2, ArrowUp, ArrowDown, Shield, Lock, CheckCircle } from "lucide-react";
+import { Upload, FileText, Plus, Trash2, ArrowUp, ArrowDown, Shield, Lock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import SideMenu from "@/components/SideMenu";
+import { jsPDF } from "jspdf";
 
 const ImageToPdf = () => {
   const [images, setImages] = useState<{ file: File; preview: string }[]>([]);
@@ -61,7 +62,7 @@ const ImageToPdf = () => {
     setImages(newImages);
   };
 
-  // Convert to PDF (using jsPDF would be ideal, for now placeholder)
+  // Convert to PDF
   const handleConvertToPdf = async () => {
     if (images.length === 0) {
       toast.error("कृपया पहले इमेज अपलोड करें");
@@ -70,9 +71,54 @@ const ImageToPdf = () => {
 
     setProcessing(true);
     
-    // Note: For actual PDF generation, we would need jsPDF library
-    // This is a placeholder that shows the concept
-    toast.info("PDF बनाने के लिए jsPDF library की जरूरत है। जल्द ही यह feature उपलब्ध होगा।");
+    try {
+      const pdf = new jsPDF();
+      
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+        
+        // Create image element to get dimensions
+        const imgElement = new Image();
+        imgElement.src = img.preview;
+        
+        await new Promise((resolve) => {
+          imgElement.onload = () => {
+            const imgWidth = imgElement.width;
+            const imgHeight = imgElement.height;
+            
+            // Calculate dimensions to fit on PDF page (A4: 210x297mm)
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            
+            let finalWidth = pageWidth - 20; // 10mm margin each side
+            let finalHeight = (imgHeight * finalWidth) / imgWidth;
+            
+            // If height exceeds page, scale down
+            if (finalHeight > pageHeight - 20) {
+              finalHeight = pageHeight - 20;
+              finalWidth = (imgWidth * finalHeight) / imgHeight;
+            }
+            
+            // Center image on page
+            const x = (pageWidth - finalWidth) / 2;
+            const y = (pageHeight - finalHeight) / 2;
+            
+            if (i > 0) {
+              pdf.addPage();
+            }
+            
+            pdf.addImage(img.preview, "JPEG", x, y, finalWidth, finalHeight);
+            resolve(true);
+          };
+        });
+      }
+      
+      pdf.save("converted-images.pdf");
+      toast.success("PDF सफलतापूर्वक बना दी गई!");
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast.error("PDF बनाने में error आया। कृपया दोबारा कोशिश करें।");
+    }
     
     setProcessing(false);
   };
