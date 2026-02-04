@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import SideMenu from "@/components/SideMenu";
+import AdBanner from "@/components/AdBanner";
 import { jsPDF } from "jspdf";
 
 const ImageToPdf = () => {
@@ -250,6 +251,9 @@ const ImageToPdf = () => {
               </CardContent>
             </Card>
           )}
+
+          {/* Ad Banner */}
+          <AdBanner />
 
           {/* Trust Indicators */}
           <div className="bg-secondary/30 rounded-xl p-6 space-y-4">

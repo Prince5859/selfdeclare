@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import SideMenu from "@/components/SideMenu";
+import AdBanner from "@/components/AdBanner";
 
 // Preset configurations for government certificates
 const PRESETS = [
@@ -385,6 +386,9 @@ const ImageResizer = () => {
               </CardContent>
             </Card>
           )}
+
+          {/* Ad Banner */}
+          <AdBanner />
 
           {/* Trust Indicators */}
           <div className="bg-secondary/30 rounded-xl p-6 space-y-4">
