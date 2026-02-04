@@ -14,25 +14,39 @@ const ImageToPdf = () => {
   // Handle image upload
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
 
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const validFiles = Array.from(files).filter((file) => validTypes.includes(file.type));
+
+    if (validFiles.length === 0) {
+      toast.error("कृपया JPG या PNG इमेज अपलोड करें");
+      return;
+    }
+
+    let loadedCount = 0;
     const newImages: { file: File; preview: string }[] = [];
 
-    Array.from(files).forEach((file) => {
-      if (validTypes.includes(file.type)) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          newImages.push({
-            file,
-            preview: e.target?.result as string,
-          });
-          if (newImages.length === files.length) {
-            setImages((prev) => [...prev, ...newImages]);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
+    validFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        newImages.push({
+          file,
+          preview: e.target?.result as string,
+        });
+        loadedCount++;
+        
+        // Only update state when all valid files are loaded
+        if (loadedCount === validFiles.length) {
+          setImages((prev) => [...prev, ...newImages]);
+          toast.success(`${validFiles.length} इमेज अपलोड हो गई!`);
+        }
+      };
+      reader.onerror = () => {
+        loadedCount++;
+        console.error("Error reading file:", file.name);
+      };
+      reader.readAsDataURL(file);
     });
 
     // Reset input
