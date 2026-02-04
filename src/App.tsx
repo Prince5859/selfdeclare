@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ImageResizer from "./pages/ImageResizer";
 import ImageToPdf from "./pages/ImageToPdf";
+import PdfToJpg from "./pages/PdfToJpg";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/image-resizer" element={<ImageResizer />} />
           <Route path="/image-to-pdf" element={<ImageToPdf />} />
+          <Route path="/pdf-to-jpg" element={<PdfToJpg />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Menu, ChevronDown, ChevronRight, Image, FileImage } from "lucide-react";
+import { Menu, ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -14,6 +12,48 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+
+// Custom Icon Components matching the reference style
+const ImageToolsIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-amber-500">
+      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+      <path d="M21 15L16 10L5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+);
+
+const ImageToPdfIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-orange-500">
+      <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M9 13H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M9 17H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  </div>
+);
+
+const ImageResizerIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-blue-500">
+      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+      <path d="M9 3V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="2 2"/>
+      <path d="M15 3V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="2 2"/>
+    </svg>
+  </div>
+);
+
+const PdfToJpgIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-yellow-100 to-yellow-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-yellow-600">
+      <rect x="3" y="6" width="10" height="10" rx="1" stroke="currentColor" strokeWidth="2"/>
+      <rect x="11" y="8" width="10" height="10" rx="1" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="15" cy="12" r="1.5" fill="currentColor"/>
+    </svg>
+  </div>
+);
 
 const SideMenu = () => {
   const [open, setOpen] = useState(false);
@@ -47,7 +87,7 @@ const SideMenu = () => {
           >
             <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <div className="flex items-center gap-3">
-                <Image className="h-5 w-5 text-primary" />
+                <ImageToolsIcon />
                 <span className="font-medium hindi-text">Image Tools</span>
               </div>
               {imageToolsOpen ? (
@@ -63,8 +103,17 @@ const SideMenu = () => {
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
               >
-                <FileImage className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
-                <span className="text-sm hindi-text">Image to PDF Converter</span>
+                <ImageToPdfIcon />
+                <span className="text-sm hindi-text">Image to PDF</span>
+              </Link>
+              
+              <Link
+                to="/pdf-to-jpg"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <PdfToJpgIcon />
+                <span className="text-sm hindi-text">PDF to JPG</span>
               </Link>
               
               <Link
@@ -72,7 +121,7 @@ const SideMenu = () => {
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
               >
-                <Image className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                <ImageResizerIcon />
                 <span className="text-sm hindi-text">Image Resizer</span>
               </Link>
             </CollapsibleContent>
