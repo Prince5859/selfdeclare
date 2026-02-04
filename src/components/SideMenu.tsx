@@ -29,18 +29,13 @@ const SideMenu = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="fixed top-3 left-3 z-[60] bg-transparent hover:bg-transparent border-none shadow-none"
+          className="fixed top-4 left-4 z-[60] bg-transparent hover:bg-transparent border-none shadow-none"
           aria-label="मेनू खोलें"
         >
-          <Menu className="h-6 w-6 text-primary" />
+          <Menu className="h-8 w-8 text-primary" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0">
-        <SheetHeader className="p-4 border-b border-border">
-          <SheetTitle className="text-lg font-semibold hindi-text">
-            टूल्स मेनू
-          </SheetTitle>
-        </SheetHeader>
+      <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 pt-6">
         
         <nav className="p-4">
           <Collapsible
