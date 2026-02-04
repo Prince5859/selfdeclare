@@ -25,16 +25,18 @@ const SideMenu = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="fixed top-4 left-4 z-[60] bg-transparent hover:bg-transparent border-none shadow-none"
-          aria-label="मेनू खोलें"
-        >
-          <Menu className="h-8 w-8 text-primary" />
-        </Button>
-      </SheetTrigger>
+      {!open && (
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="fixed top-4 left-4 z-[60] bg-transparent hover:bg-transparent border-none shadow-none"
+            aria-label="मेनू खोलें"
+          >
+            <Menu className="h-8 w-8 text-primary" />
+          </Button>
+        </SheetTrigger>
+      )}
       <SheetContent side="left" className="w-[280px] sm:w-[320px] p-0 pt-6">
         
         <nav className="p-4">
