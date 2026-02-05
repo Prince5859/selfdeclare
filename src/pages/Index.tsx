@@ -1,79 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+ import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
 import SideMenu from "@/components/SideMenu";
-
-// Responsive Adsterra Ad Component - Mobile 320x50, Desktop 728x90
-const AdsterraAd = () => {
-  const mobileAdRef = useRef<HTMLDivElement>(null);
-  const desktopAdRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    // Mobile Ad - 320x50
-    if (isMobile && mobileAdRef.current && mobileAdRef.current.children.length === 0) {
-      (window as any).atOptions = {
-        'key': 'd98482b0935791ef833a2417eb9c4900',
-        'format': 'iframe',
-        'height': 50,
-        'width': 320,
-        'params': {}
-      };
-
-      const script = document.createElement('script');
-      script.src = 'https://www.highperformanceformat.com/d98482b0935791ef833a2417eb9c4900/invoke.js';
-      script.async = true;
-      mobileAdRef.current.appendChild(script);
-    }
-
-    // Desktop Ad - 728x90
-    if (!isMobile && desktopAdRef.current && desktopAdRef.current.children.length === 0) {
-      (window as any).atOptions = {
-        'key': 'c00469cb94eb0adb924b5a29ad345568',
-        'format': 'iframe',
-        'height': 90,
-        'width': 728,
-        'params': {}
-      };
-
-      const script = document.createElement('script');
-      script.src = 'https://www.highperformanceformat.com/c00469cb94eb0adb924b5a29ad345568/invoke.js';
-      script.async = true;
-      desktopAdRef.current.appendChild(script);
-    }
-  }, [isMobile]);
-
-  return (
-    <>
-      {/* Mobile Ad - 320x50 */}
-      {isMobile && (
-        <div 
-          ref={mobileAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '320px', height: '50px', margin: '0 auto' }}
-        />
-      )}
-      {/* Desktop Ad - 728x90 */}
-      {!isMobile && (
-        <div 
-          ref={desktopAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '728px', height: '90px', margin: '0 auto' }}
-        />
-      )}
-    </>
-  );
-};
+ import AdBanner from "@/components/AdBanner";
 
 const Index = () => {
   const isNewYearTheme = useNewYearTheme();
@@ -467,7 +398,7 @@ const Index = () => {
               
               {/* Adsterra Ad Section - Mobile */}
               <div className="mt-3">
-                <AdsterraAd />
+                 <AdBanner />
               </div>
             </div>
           </div>
@@ -494,7 +425,7 @@ const Index = () => {
               </button>
               
               {/* Adsterra Ad Section - Desktop */}
-              <AdsterraAd />
+               <AdBanner />
             </div>
             
             <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
