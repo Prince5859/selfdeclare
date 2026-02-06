@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Upload, Download, Plus, Minus, Shield, Lock, CheckCircle } from "lucide-react";
+import { Upload, Download, Plus, Minus, Shield, Lock, CheckCircle, Crop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import SideMenu from "@/components/SideMenu";
 import AdBanner from "@/components/AdBanner";
+import ImageCropper from "@/components/ImageCropper";
 
 // Preset configurations for government certificates
 const PRESETS = [
@@ -24,6 +25,7 @@ const ImageResizer = () => {
   const [processing, setProcessing] = useState(false);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [finalSize, setFinalSize] = useState<number>(0);
+  const [showCropper, setShowCropper] = useState(false);
   
   // Manual resize controls
   const [targetSize, setTargetSize] = useState<number>(50);
@@ -247,8 +249,49 @@ const ImageResizer = () => {
             </CardContent>
           </Card>
 
+          {/* Crop Tool */}
+          {selectedImage && showCropper && imagePreview && (
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg hindi-text flex items-center gap-2">
+                  <Crop className="h-5 w-5" />
+                  Crop Image
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ImageCropper
+                  imageSrc={imagePreview}
+                  onCropComplete={(croppedImage) => {
+                    setImagePreview(croppedImage);
+                    // Update file size estimate
+                    const base64Length = croppedImage.length - "data:image/jpeg;base64,".length;
+                    const sizeInBytes = Math.round((base64Length * 3) / 4);
+                    setOriginalSize(sizeInBytes);
+                    setShowCropper(false);
+                    setProcessedImage(null);
+                    toast.success("Image cropped successfully!");
+                  }}
+                  onCancel={() => setShowCropper(false)}
+                />
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Crop Button */}
+          {selectedImage && !showCropper && (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setShowCropper(true)}
+              disabled={processing}
+            >
+              <Crop className="h-4 w-4 mr-2" />
+              Crop Image
+            </Button>
+          )}
+
           {/* Preset Buttons */}
-          {selectedImage && (
+          {selectedImage && !showCropper && (
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg hindi-text">Quick Presets (Under 50 KB)</CardTitle>
@@ -272,7 +315,7 @@ const ImageResizer = () => {
           )}
 
           {/* Manual Resize Controls */}
-          {selectedImage && (
+          {selectedImage && !showCropper && (
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg hindi-text">Manual Resize</CardTitle>
