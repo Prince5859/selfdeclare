@@ -1,8 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Crop, RotateCcw, Check, X } from "lucide-react";
+import { Crop, RotateCcw, Check, X, Move } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
 
 interface ImageCropperProps {
   imageSrc: string;
@@ -26,11 +27,17 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
   const containerRef = useRef<HTMLDivElement>(null);
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("free");
   const [isDragging, setIsDragging] = useState(false);
-  const [dragType, setDragType] = useState<"move" | "resize" | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [dragType, setDragType] = useState<"move" | "resize" | "draw" | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [drawStart, setDrawStart] = useState({ x: 0, y: 0 });
   
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [cropArea, setCropArea] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  
+  // Manual input values
+  const [manualWidth, setManualWidth] = useState<string>("");
+  const [manualHeight, setManualHeight] = useState<string>("");
 
   // Initialize crop area when image loads
   useEffect(() => {
@@ -57,9 +64,21 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
         width: cropW,
         height: cropH,
       });
+      
+      // Set initial manual values
+      setManualWidth(Math.round(cropW).toString());
+      setManualHeight(Math.round(cropH).toString());
     };
     img.src = imageSrc;
   }, [imageSrc]);
+
+  // Update manual inputs when crop area changes
+  useEffect(() => {
+    if (cropArea.width > 0) {
+      setManualWidth(Math.round(cropArea.width).toString());
+      setManualHeight(Math.round(cropArea.height).toString());
+    }
+  }, [cropArea.width, cropArea.height]);
 
   // Apply aspect ratio constraint
   useEffect(() => {
@@ -80,21 +99,107 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
     });
   }, [aspectRatio, imageSize]);
 
+  // Apply manual size
+  const applyManualSize = () => {
+    const width = parseInt(manualWidth) || cropArea.width;
+    const height = parseInt(manualHeight) || cropArea.height;
+    
+    const constrainedWidth = Math.min(Math.max(50, width), imageSize.width);
+    const constrainedHeight = Math.min(Math.max(50, height), imageSize.height);
+    
+    setCropArea(prev => ({
+      x: Math.min(prev.x, imageSize.width - constrainedWidth),
+      y: Math.min(prev.y, imageSize.height - constrainedHeight),
+      width: constrainedWidth,
+      height: constrainedHeight,
+    }));
+  };
+
+  const getMousePosition = useCallback((e: React.MouseEvent) => {
+    const container = containerRef.current;
+    if (!container) return { x: 0, y: 0 };
+    
+    const rect = container.getBoundingClientRect();
+    const containerCenterX = rect.width / 2;
+    const imageOffsetX = containerCenterX - imageSize.width / 2;
+    
+    return {
+      x: e.clientX - rect.left - imageOffsetX,
+      y: e.clientY - rect.top,
+    };
+  }, [imageSize]);
+
   const handleMouseDown = useCallback((e: React.MouseEvent, type: "move" | "resize") => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragging(true);
     setDragType(type);
     setDragStart({ x: e.clientX, y: e.clientY });
   }, []);
 
+  // Start drawing new crop area
+  const handleContainerMouseDown = useCallback((e: React.MouseEvent) => {
+    const pos = getMousePosition(e);
+    
+    // Check if click is within image bounds
+    if (pos.x < 0 || pos.x > imageSize.width || pos.y < 0 || pos.y > imageSize.height) {
+      return;
+    }
+    
+    // Check if click is inside existing crop area (don't start new draw)
+    if (
+      pos.x >= cropArea.x &&
+      pos.x <= cropArea.x + cropArea.width &&
+      pos.y >= cropArea.y &&
+      pos.y <= cropArea.y + cropArea.height
+    ) {
+      return;
+    }
+    
+    e.preventDefault();
+    setIsDrawing(true);
+    setDragType("draw");
+    setDrawStart(pos);
+    setCropArea({
+      x: pos.x,
+      y: pos.y,
+      width: 0,
+      height: 0,
+    });
+  }, [getMousePosition, imageSize, cropArea]);
+
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging) return;
+    if (!isDragging && !isDrawing) return;
+
+    const ratio = ASPECT_RATIOS.find(r => r.id === aspectRatio)?.value;
+
+    if (isDrawing && dragType === "draw") {
+      const pos = getMousePosition(e);
+      
+      let newWidth = Math.abs(pos.x - drawStart.x);
+      let newHeight = ratio ? newWidth / ratio : Math.abs(pos.y - drawStart.y);
+      
+      const newX = pos.x < drawStart.x ? pos.x : drawStart.x;
+      const newY = pos.y < drawStart.y ? pos.y : drawStart.y;
+      
+      // Constrain to image bounds
+      const constrainedWidth = Math.min(newWidth, imageSize.width - newX);
+      const constrainedHeight = ratio 
+        ? constrainedWidth / ratio 
+        : Math.min(newHeight, imageSize.height - newY);
+      
+      setCropArea({
+        x: Math.max(0, newX),
+        y: Math.max(0, newY),
+        width: Math.max(20, constrainedWidth),
+        height: Math.max(20, constrainedHeight),
+      });
+      return;
+    }
 
     const deltaX = e.clientX - dragStart.x;
     const deltaY = e.clientY - dragStart.y;
     setDragStart({ x: e.clientX, y: e.clientY });
-
-    const ratio = ASPECT_RATIOS.find(r => r.id === aspectRatio)?.value;
 
     setCropArea(prev => {
       if (dragType === "move") {
@@ -119,10 +224,11 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
       }
       return prev;
     });
-  }, [isDragging, dragType, dragStart, aspectRatio, imageSize]);
+  }, [isDragging, isDrawing, dragType, dragStart, drawStart, aspectRatio, imageSize, getMousePosition]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
+    setIsDrawing(false);
     setDragType(null);
   }, []);
 
@@ -193,11 +299,56 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
         </RadioGroup>
       </div>
 
+      {/* Manual Size Input */}
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">Manual Size (pixels)</Label>
+        <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <Label className="text-xs text-muted-foreground">Width</Label>
+            <Input
+              type="number"
+              value={manualWidth}
+              onChange={(e) => setManualWidth(e.target.value)}
+              onBlur={applyManualSize}
+              onKeyDown={(e) => e.key === "Enter" && applyManualSize()}
+              className="h-8"
+              min="50"
+            />
+          </div>
+          <span className="text-muted-foreground mt-5">×</span>
+          <div className="flex-1">
+            <Label className="text-xs text-muted-foreground">Height</Label>
+            <Input
+              type="number"
+              value={manualHeight}
+              onChange={(e) => setManualHeight(e.target.value)}
+              onBlur={applyManualSize}
+              onKeyDown={(e) => e.key === "Enter" && applyManualSize()}
+              className="h-8"
+              min="50"
+              disabled={aspectRatio !== "free"}
+            />
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={applyManualSize}
+            className="mt-5"
+          >
+            Apply
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          💡 Tip: Click और drag करके नया crop area बनाएं
+        </p>
+      </div>
+
       {/* Crop Area */}
       <div
         ref={containerRef}
-        className="relative bg-muted rounded-lg overflow-hidden mx-auto"
+        className="relative bg-muted rounded-lg overflow-hidden mx-auto cursor-crosshair"
         style={{ width: "100%", height: 300 }}
+        onMouseDown={handleContainerMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
@@ -215,43 +366,55 @@ const ImageCropper = ({ imageSrc, onCropComplete, onCancel }: ImageCropperProps)
           />
           
           {/* Crop overlay */}
-          <div
-            className="absolute border-2 border-primary bg-transparent cursor-move"
-            style={{
-              left: cropArea.x,
-              top: cropArea.y,
-              width: cropArea.width,
-              height: cropArea.height,
-            }}
-            onMouseDown={(e) => handleMouseDown(e, "move")}
-          >
-            {/* Cropped area visible */}
-            <img
-              src={imageSrc}
-              alt="Crop area"
-              className="absolute object-contain"
-              style={{
-                width: imageSize.width,
-                height: imageSize.height,
-                left: -cropArea.x,
-                top: -cropArea.y,
-              }}
-              draggable={false}
-            />
-            
-            {/* Resize handle */}
+          {cropArea.width > 0 && cropArea.height > 0 && (
             <div
-              className="absolute bottom-0 right-0 w-6 h-6 bg-primary rounded-tl-lg cursor-se-resize flex items-center justify-center"
-              onMouseDown={(e) => handleMouseDown(e, "resize")}
+              className="absolute border-2 border-primary bg-transparent cursor-move"
+              style={{
+                left: cropArea.x,
+                top: cropArea.y,
+                width: cropArea.width,
+                height: cropArea.height,
+              }}
+              onMouseDown={(e) => handleMouseDown(e, "move")}
             >
-              <Crop className="w-3 h-3 text-primary-foreground" />
+              {/* Cropped area visible */}
+              <img
+                src={imageSrc}
+                alt="Crop area"
+                className="absolute object-contain pointer-events-none"
+                style={{
+                  width: imageSize.width,
+                  height: imageSize.height,
+                  left: -cropArea.x,
+                  top: -cropArea.y,
+                }}
+                draggable={false}
+              />
+              
+              {/* Move indicator */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary/80 rounded-full p-1">
+                <Move className="w-4 h-4 text-primary-foreground" />
+              </div>
+              
+              {/* Resize handle */}
+              <div
+                className="absolute bottom-0 right-0 w-6 h-6 bg-primary rounded-tl-lg cursor-se-resize flex items-center justify-center"
+                onMouseDown={(e) => handleMouseDown(e, "resize")}
+              >
+                <Crop className="w-3 h-3 text-primary-foreground" />
+              </div>
+              
+              {/* Corner indicators */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary" />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary" />
+              
+              {/* Size display */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-foreground/80 text-background text-xs px-2 py-0.5 rounded whitespace-nowrap">
+                {Math.round(cropArea.width)} × {Math.round(cropArea.height)}
+              </div>
             </div>
-            
-            {/* Corner indicators */}
-            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary" />
-            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary" />
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary" />
-          </div>
+          )}
         </div>
       </div>
 
