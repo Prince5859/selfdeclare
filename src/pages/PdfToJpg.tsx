@@ -225,6 +225,11 @@ const PdfToJpg = () => {
                     </div>
                   ))}
                 </div>
+                
+                {/* Ad Banner after download */}
+                <div className="mt-4">
+                  <AdBanner />
+                </div>
               </CardContent>
             </Card>
           )}
