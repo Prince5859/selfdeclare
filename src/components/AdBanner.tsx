@@ -53,21 +53,21 @@ const AdBanner = () => {
   }, [isMobile]);
 
   return (
-    <div className="my-6">
+    <div className="my-6 w-full overflow-hidden">
       {/* Mobile Ad - 320x50 */}
       {isMobile && (
         <div 
           ref={mobileAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '320px', height: '50px', margin: '0 auto' }}
+          className="flex justify-center items-center rounded-lg mx-auto"
+          style={{ width: '100%', maxWidth: '320px', height: '50px' }}
         />
       )}
       {/* Desktop Ad - 728x90 */}
       {!isMobile && (
         <div 
           ref={desktopAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '728px', height: '90px', margin: '0 auto' }}
+          className="flex justify-center items-center rounded-lg mx-auto"
+          style={{ width: '100%', maxWidth: '728px', height: '90px' }}
         />
       )}
     </div>
