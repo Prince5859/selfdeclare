@@ -2,11 +2,10 @@ import { useRef, useEffect, useState } from "react";
 
 // Responsive Adsterra Ad Component - Mobile 320x50, Desktop 728x90
 const AdBanner = () => {
-  const mobileAdRef = useRef<HTMLDivElement>(null);
-  const desktopAdRef = useRef<HTMLDivElement>(null);
+  const adContainerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  const mobileAdLoaded = useRef(false);
-  const desktopAdLoaded = useRef(false);
+  const adLoaded = useRef(false);
+  const currentAdType = useRef<'mobile' | 'desktop' | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -17,59 +16,58 @@ const AdBanner = () => {
   }, []);
 
   useEffect(() => {
-    // Mobile Ad - 320x50
-    if (isMobile && mobileAdRef.current && !mobileAdLoaded.current) {
-      mobileAdLoaded.current = true;
-      (window as any).atOptions = {
-        'key': 'd98482b0935791ef833a2417eb9c4900',
-        'format': 'iframe',
-        'height': 50,
-        'width': 320,
-        'params': {}
-      };
+    const adType = isMobile ? 'mobile' : 'desktop';
+    
+    // Only load if not already loaded for this type
+    if (adContainerRef.current && (!adLoaded.current || currentAdType.current !== adType)) {
+      // Clear previous ad
+      adContainerRef.current.innerHTML = '';
+      adLoaded.current = true;
+      currentAdType.current = adType;
 
-      const script = document.createElement('script');
-      script.src = 'https://www.highperformanceformat.com/d98482b0935791ef833a2417eb9c4900/invoke.js';
-      script.async = true;
-      mobileAdRef.current.appendChild(script);
-    }
+      if (isMobile) {
+        // Mobile Ad - 320x50
+        (window as any).atOptions = {
+          'key': 'd98482b0935791ef833a2417eb9c4900',
+          'format': 'iframe',
+          'height': 50,
+          'width': 320,
+          'params': {}
+        };
 
-    // Desktop Ad - 728x90
-    if (!isMobile && desktopAdRef.current && !desktopAdLoaded.current) {
-      desktopAdLoaded.current = true;
-      (window as any).atOptions = {
-        'key': 'c00469cb94eb0adb924b5a29ad345568',
-        'format': 'iframe',
-        'height': 90,
-        'width': 728,
-        'params': {}
-      };
+        const script = document.createElement('script');
+        script.src = 'https://www.highperformanceformat.com/d98482b0935791ef833a2417eb9c4900/invoke.js';
+        script.async = true;
+        adContainerRef.current.appendChild(script);
+      } else {
+        // Desktop Ad - 728x90
+        (window as any).atOptions = {
+          'key': 'c00469cb94eb0adb924b5a29ad345568',
+          'format': 'iframe',
+          'height': 90,
+          'width': 728,
+          'params': {}
+        };
 
-      const script = document.createElement('script');
-      script.src = 'https://www.highperformanceformat.com/c00469cb94eb0adb924b5a29ad345568/invoke.js';
-      script.async = true;
-      desktopAdRef.current.appendChild(script);
+        const script = document.createElement('script');
+        script.src = 'https://www.highperformanceformat.com/c00469cb94eb0adb924b5a29ad345568/invoke.js';
+        script.async = true;
+        adContainerRef.current.appendChild(script);
+      }
     }
   }, [isMobile]);
 
   return (
     <div className="my-6">
-      {/* Mobile Ad - 320x50 */}
-      {isMobile && (
-        <div 
-          ref={mobileAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '320px', height: '50px', margin: '0 auto' }}
-        />
-      )}
-      {/* Desktop Ad - 728x90 */}
-      {!isMobile && (
-        <div 
-          ref={desktopAdRef}
-          className="flex justify-center items-center rounded-lg"
-          style={{ width: '728px', height: '90px', margin: '0 auto' }}
-        />
-      )}
+      <div 
+        ref={adContainerRef}
+        className="flex justify-center items-center rounded-lg mx-auto"
+        style={{ 
+          width: isMobile ? '320px' : '728px', 
+          height: isMobile ? '50px' : '90px',
+          minHeight: isMobile ? '50px' : '90px'
+        }}
+      />
     </div>
   );
 };
