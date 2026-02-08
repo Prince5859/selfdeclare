@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import { FileText, Download, Loader2, RotateCcw, X, MessageCircle, Send, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
-import Header from "@/components/Header";
+import SideMenu from "@/components/SideMenu";
 
 // Responsive Adsterra Ad Component - Mobile 320x50, Desktop 728x90
 const AdsterraAd = () => {
@@ -275,10 +275,10 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen bg-background font-hindi ${isNewYearTheme ? 'new-year-theme' : ''}`}>
-      <Header />
+      <SideMenu />
       
-      {/* Page Title Section */}
-      <div className="bg-card border-b border-border py-6 relative overflow-hidden">
+      {/* Header */}
+      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-50 relative overflow-hidden">
         {/* New Year Gold Glow Line */}
         {isNewYearTheme && (
           <div 
@@ -288,7 +288,7 @@ const Index = () => {
             }}
           />
         )}
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
               <FileText className="w-5 h-5 text-primary-foreground" />
@@ -303,7 +303,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 md:py-8">
