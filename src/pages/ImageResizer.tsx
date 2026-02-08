@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
-import SideMenu from "@/components/SideMenu";
+import Header from "@/components/Header";
 import AdBanner from "@/components/AdBanner";
 import ImageCropper from "@/components/ImageCropper";
 
@@ -193,10 +193,10 @@ const ImageResizer = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SideMenu />
+      <Header />
       
-      <div className="container mx-auto px-4 py-8 pt-20">
-        {/* Header */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Page Title */}
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground hindi-text mb-2">
             Image Resizer Tool
