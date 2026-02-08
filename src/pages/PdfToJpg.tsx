@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Upload, Image, Trash2, Download, Shield, Lock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import SideMenu from "@/components/SideMenu";
+import Header from "@/components/Header";
 import AdBanner from "@/components/AdBanner";
 import * as pdfjsLib from "pdfjs-dist";
 
@@ -108,10 +108,10 @@ const PdfToJpg = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SideMenu />
+      <Header />
       
-      <div className="container mx-auto px-4 py-8 pt-20">
-        {/* Header */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Page Title */}
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground hindi-text mb-2">
             PDF to JPG Converter
