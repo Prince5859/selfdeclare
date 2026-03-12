@@ -135,6 +135,46 @@ const SideMenu = () => {
           >
             <span className="text-sm hindi-text">🏠 घोषणा पत्र (होम)</span>
           </Link>
+
+          {/* Pages Section */}
+          <div className="mt-6 pt-4 border-t border-border space-y-1">
+            <p className="text-xs text-muted-foreground font-medium px-3 mb-2 hindi-text">पेज</p>
+            <Link
+              to="/about"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+            >
+              <span className="text-sm hindi-text">ℹ️ हमारे बारे में</span>
+            </Link>
+            <Link
+              to="/contact"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+            >
+              <span className="text-sm hindi-text">📧 संपर्क करें</span>
+            </Link>
+            <Link
+              to="/privacy-policy"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+            >
+              <span className="text-sm hindi-text">🔒 गोपनीयता नीति</span>
+            </Link>
+            <Link
+              to="/terms"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+            >
+              <span className="text-sm hindi-text">📜 नियम और शर्तें</span>
+            </Link>
+            <Link
+              to="/disclaimer"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
+            >
+              <span className="text-sm hindi-text">⚠️ अस्वीकरण</span>
+            </Link>
+          </div>
         </nav>
       </SheetContent>
     </Sheet>

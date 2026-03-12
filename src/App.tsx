@@ -8,6 +8,11 @@ import NotFound from "./pages/NotFound";
 import ImageResizer from "./pages/ImageResizer";
 import ImageToPdf from "./pages/ImageToPdf";
 import PdfToJpg from "./pages/PdfToJpg";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Terms from "./pages/Terms";
+import Disclaimer from "./pages/Disclaimer";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +27,11 @@ const App = () => (
           <Route path="/image-resizer" element={<ImageResizer />} />
           <Route path="/image-to-pdf" element={<ImageToPdf />} />
           <Route path="/pdf-to-jpg" element={<PdfToJpg />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
