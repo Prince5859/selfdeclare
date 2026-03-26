@@ -55,6 +55,20 @@ const PdfToJpgIcon = () => (
   </div>
 );
 
+const QrCodeIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-purple-600">
+      <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
+      <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
+      <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
+      <rect x="14" y="14" width="4" height="4" fill="currentColor"/>
+      <rect x="19" y="19" width="2" height="2" fill="currentColor"/>
+      <rect x="14" y="19" width="2" height="2" fill="currentColor"/>
+      <rect x="19" y="14" width="2" height="2" fill="currentColor"/>
+    </svg>
+  </div>
+);
+
 const SideMenu = () => {
   const [open, setOpen] = useState(false);
   const [imageToolsOpen, setImageToolsOpen] = useState(true);
@@ -123,6 +137,15 @@ const SideMenu = () => {
               >
                 <ImageResizerIcon />
                 <span className="text-sm hindi-text">Image Resizer</span>
+              </Link>
+
+              <Link
+                to="/qr-code-generator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <QrCodeIcon />
+                <span className="text-sm hindi-text">QR Code Generator</span>
               </Link>
             </CollapsibleContent>
           </Collapsible>
