@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import ImageResizer from "./pages/ImageResizer";
 import ImageToPdf from "./pages/ImageToPdf";
 import PdfToJpg from "./pages/PdfToJpg";
+import QrCodeGenerator from "./pages/QrCodeGenerator";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/image-resizer" element={<ImageResizer />} />
           <Route path="/image-to-pdf" element={<ImageToPdf />} />
           <Route path="/pdf-to-jpg" element={<PdfToJpg />} />
+          <Route path="/qr-code-generator" element={<QrCodeGenerator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
