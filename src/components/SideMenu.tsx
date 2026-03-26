@@ -138,6 +138,15 @@ const SideMenu = () => {
                 <ImageResizerIcon />
                 <span className="text-sm hindi-text">Image Resizer</span>
               </Link>
+
+              <Link
+                to="/qr-code-generator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <QrCodeIcon />
+                <span className="text-sm hindi-text">QR Code Generator</span>
+              </Link>
             </CollapsibleContent>
           </Collapsible>
           
