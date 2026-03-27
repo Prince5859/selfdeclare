@@ -484,7 +484,7 @@ const QrCodeGenerator = () => {
           return;
         }
 
-        const img = new Image();
+        const img = document.createElement("img");
         img.onload = () => {
           const logoSize = qrActualSize * 0.2;
           const logoX = (qrActualSize - logoSize) / 2;
