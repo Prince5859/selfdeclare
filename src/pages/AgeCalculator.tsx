@@ -211,8 +211,8 @@ const AgeCalculator = () => {
                     <span className="font-semibold text-foreground">{result.dayOfBirth}</span>
                   </div>
                   <div className="flex justify-between p-3 rounded-lg bg-secondary/50">
-                    <span className="text-muted-foreground">राशि (Zodiac)</span>
-                    <span className="font-semibold text-foreground">{result.zodiacSign}</span>
+                    <span className="text-muted-foreground">अगला जन्मदिन</span>
+                    <span className="font-semibold text-foreground">{result.nextBirthdayDate}</span>
                   </div>
                 </div>
               </CardContent>
