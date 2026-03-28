@@ -147,6 +147,15 @@ const SideMenu = () => {
                 <QrCodeIcon />
                 <span className="text-sm hindi-text">QR Code Generator</span>
               </Link>
+
+              <Link
+                to="/age-calculator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <AgeCalcIcon />
+                <span className="text-sm hindi-text">Age Calculator</span>
+              </Link>
             </CollapsibleContent>
           </Collapsible>
           
