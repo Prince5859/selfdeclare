@@ -67,17 +67,26 @@ const calculateAge = (birthDate: Date): AgeResult => {
 
 const AgeCalculator = () => {
   const [birthDate, setBirthDate] = useState("");
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
   const [result, setResult] = useState<AgeResult | null>(null);
   const [error, setError] = useState("");
 
   const handleCalculate = () => {
     setError("");
     setResult(null);
-    if (!birthDate) {
+    
+    let dob: Date;
+    if (birthDate) {
+      dob = new Date(birthDate);
+    } else if (day && month && year) {
+      dob = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    } else {
       setError("कृपया जन्म तिथि दर्ज करें");
       return;
     }
-    const dob = new Date(birthDate);
+    
     if (isNaN(dob.getTime()) || dob > new Date()) {
       setError("कृपया सही जन्म तिथि दर्ज करें");
       return;
@@ -88,7 +97,7 @@ const AgeCalculator = () => {
   const statCards = result
     ? [
         { icon: <Calendar className="h-5 w-5" />, label: "उम्र", value: `${result.years} साल, ${result.months} महीने, ${result.days} दिन`, color: "from-orange-500 to-amber-500" },
-        { icon: <Gift className="h-5 w-5" />, label: "अगला जन्मदिन", value: `${result.nextBirthday} दिन बाकी`, color: "from-pink-500 to-rose-500" },
+        { icon: <Gift className="h-5 w-5" />, label: "अगला जन्मदिन", value: `${result.nextBirthdayDate} (${result.nextBirthday} दिन बाकी)`, color: "from-pink-500 to-rose-500" },
         { icon: <Clock className="h-5 w-5" />, label: "कुल दिन जिए", value: result.totalDays.toLocaleString(), color: "from-blue-500 to-cyan-500" },
         { icon: <Calculator className="h-5 w-5" />, label: "कुल हफ्ते", value: result.totalWeeks.toLocaleString(), color: "from-purple-500 to-violet-500" },
       ]
