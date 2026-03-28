@@ -680,7 +680,7 @@ const QrCodeGenerator = () => {
               <div className="flex gap-2">
                 {["WPA", "WEP", "nopass"].map((enc) => (
                   <button key={enc} onClick={() => setWifiEncryption(enc)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${wifiEncryption === enc ? "bg-[hsl(var(--primary))] text-white" : "bg-[hsl(var(--secondary))] text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--border))]"}`}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${wifiEncryption === enc ? "bg-[hsl(var(--primary))] text-primary-foreground" : "bg-[hsl(var(--secondary))] text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--border))]"}`}
                   >{enc === "nopass" ? "None" : enc}</button>
                 ))}
               </div>
@@ -742,11 +742,11 @@ const QrCodeGenerator = () => {
       <input ref={logoInputRef} type="file" accept="image/png,image/jpeg,image/svg+xml" onChange={handleLogoUpload} className="hidden" />
 
       {/* Header */}
-      <div className="bg-white border-b border-[hsl(var(--border))]">
+      <div className="bg-card border-b border-[hsl(var(--border))]">
         <div className="max-w-6xl mx-auto px-4 py-4 text-center">
           <div className="flex items-center justify-center gap-2.5 mb-1">
             <div className="w-8 h-8 rounded-lg bg-[hsl(var(--primary))] flex items-center justify-center">
-              <QrCode className="w-4.5 h-4.5 text-white" />
+              <QrCode className="w-4.5 h-4.5 text-primary-foreground" />
             </div>
             <h1 className="text-lg md:text-xl font-bold text-[hsl(var(--foreground))]">QR Code Generator</h1>
           </div>
@@ -758,7 +758,7 @@ const QrCodeGenerator = () => {
         <AdBanner />
 
         {/* QR Type Tabs */}
-        <div className="bg-white rounded-2xl shadow-sm border border-[hsl(var(--border))] overflow-hidden">
+        <div className="bg-card rounded-2xl shadow-sm border border-[hsl(var(--border))] overflow-hidden">
           <div className="flex overflow-x-auto border-b border-[hsl(var(--border))]">
             {QR_TYPES.map((type) => {
               const Icon = type.icon;
@@ -784,13 +784,13 @@ const QrCodeGenerator = () => {
                 <button onClick={() => setMobileStep("content")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-all ${mobileStep === "content" ? "bg-[hsl(var(--primary) / 0.1)] text-[hsl(var(--primary))] border-b-2 border-[hsl(var(--primary))]" : "text-[hsl(var(--muted-foreground))]"}`}
                 >
-                  <span className="w-5 h-5 rounded-full bg-[hsl(var(--primary))] text-white text-[10px] font-bold flex items-center justify-center">1</span>
+                  <span className="w-5 h-5 rounded-full bg-[hsl(var(--primary))] text-primary-foreground text-[10px] font-bold flex items-center justify-center">1</span>
                   Content
                 </button>
                 <button onClick={() => setMobileStep("design")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-all ${mobileStep === "design" ? "bg-[hsl(var(--primary) / 0.1)] text-[hsl(var(--primary))] border-b-2 border-[hsl(var(--primary))]" : "text-[hsl(var(--muted-foreground))]"}`}
                 >
-                  <span className="w-5 h-5 rounded-full bg-[hsl(var(--accent))] text-white text-[10px] font-bold flex items-center justify-center">2</span>
+                  <span className="w-5 h-5 rounded-full bg-[hsl(var(--accent))] text-primary-foreground text-[10px] font-bold flex items-center justify-center">2</span>
                   Design
                 </button>
               </div>
@@ -798,7 +798,7 @@ const QrCodeGenerator = () => {
               {/* Step 1: Content (always visible on desktop, toggled on mobile) */}
               <div className={`p-5 ${mobileStep !== "content" ? "hidden lg:block" : ""}`}>
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="w-6 h-6 rounded-full bg-[hsl(var(--primary))] text-white text-[10px] font-bold flex items-center justify-center">1</span>
+                  <span className="w-6 h-6 rounded-full bg-[hsl(var(--primary))] text-primary-foreground text-[10px] font-bold flex items-center justify-center">1</span>
                   <h2 className="font-semibold text-sm text-[hsl(var(--foreground))]">Complete the content</h2>
                 </div>
                 {renderInputFields()}
@@ -809,7 +809,7 @@ const QrCodeGenerator = () => {
               {/* Step 2: Design (always visible on desktop, toggled on mobile) */}
               <div className={`p-5 ${mobileStep !== "design" ? "hidden lg:block" : ""}`}>
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="w-6 h-6 rounded-full bg-[hsl(var(--accent))] text-white text-[10px] font-bold flex items-center justify-center">2</span>
+                  <span className="w-6 h-6 rounded-full bg-[hsl(var(--accent))] text-primary-foreground text-[10px] font-bold flex items-center justify-center">2</span>
                   <h2 className="font-semibold text-sm text-[hsl(var(--foreground))]">Design your QR</h2>
                 </div>
 
@@ -881,10 +881,10 @@ const QrCodeGenerator = () => {
                     {/* Shape sub-tabs */}
                     <div className="flex gap-1 bg-[hsl(var(--secondary))] rounded-lg p-0.5">
                       <button onClick={() => setShapeSubTab("style")}
-                        className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${shapeSubTab === "style" ? "bg-white text-[hsl(var(--primary))] shadow-sm" : "text-[hsl(var(--muted-foreground))]"}`}
+                        className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${shapeSubTab === "style" ? "bg-card text-[hsl(var(--primary))] shadow-sm" : "text-[hsl(var(--muted-foreground))]"}`}
                       >Shape style</button>
                       <button onClick={() => setShapeSubTab("edge")}
-                        className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${shapeSubTab === "edge" ? "bg-white text-[hsl(var(--primary))] shadow-sm" : "text-[hsl(var(--muted-foreground))]"}`}
+                        className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${shapeSubTab === "edge" ? "bg-card text-[hsl(var(--primary))] shadow-sm" : "text-[hsl(var(--muted-foreground))]"}`}
                       >Edge and center</button>
                     </div>
 
@@ -1030,12 +1030,12 @@ const QrCodeGenerator = () => {
             {/* Right Panel: Preview */}
             <div className="w-full lg:w-[300px] p-5 bg-[hsl(var(--card))]">
               <div className="flex items-center gap-2 mb-3">
-                <span className="w-6 h-6 rounded-full bg-[hsl(var(--primary))] text-white text-[10px] font-bold flex items-center justify-center">3</span>
+                <span className="w-6 h-6 rounded-full bg-[hsl(var(--primary))] text-primary-foreground text-[10px] font-bold flex items-center justify-center">3</span>
                 <h2 className="font-semibold text-sm text-[hsl(var(--foreground))]">Download your QR</h2>
               </div>
 
               {/* Preview Card */}
-              <div className="bg-white rounded-2xl border border-[hsl(var(--border))] p-4 flex items-center justify-center min-h-[200px] mb-4 shadow-sm">
+              <div className="bg-card rounded-2xl border border-[hsl(var(--border))] p-4 flex items-center justify-center min-h-[200px] mb-4 shadow-sm">
                 {qrDataUrl ? (
                   <img src={qrDataUrl} alt="QR Code" className="max-w-full h-auto" style={{ imageRendering: dotStyle === "square" ? "pixelated" : "auto", maxHeight: "240px" }} />
                 ) : (
@@ -1050,12 +1050,12 @@ const QrCodeGenerator = () => {
               <div className="relative mb-3">
                 <Button onClick={() => qrDataUrl ? setShowDownloadMenu(!showDownloadMenu) : null}
                   disabled={!qrDataUrl}
-                  className="w-full h-10 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary) / 0.85)] text-white font-medium rounded-xl text-sm"
+                  className="w-full h-10 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary) / 0.85)] text-primary-foreground font-medium rounded-xl text-sm"
                 >
                   <Download className="w-4 h-4 mr-1.5" /> Download QR <ChevronDown className="w-3.5 h-3.5 ml-auto" />
                 </Button>
                 {showDownloadMenu && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg border border-[hsl(var(--border))] overflow-hidden z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-card rounded-xl shadow-lg border border-[hsl(var(--border))] overflow-hidden z-10">
                     <button onClick={() => downloadFile("png")} className="w-full px-4 py-2.5 text-sm text-left hover:bg-[hsl(var(--secondary))] flex items-center gap-2">
                       <Download className="w-3.5 h-3.5" /> Download PNG
                     </button>
@@ -1087,7 +1087,7 @@ const QrCodeGenerator = () => {
             { icon: Lock, title: "Generated in Browser", desc: "100% client-side processing" },
             { icon: CheckCircle, title: "Safe & Private", desc: "Your privacy is fully protected" },
           ].map((t, i) => (
-            <div key={i} className="bg-white rounded-xl border border-[hsl(var(--border))] p-4 text-center">
+            <div key={i} className="bg-card rounded-xl border border-[hsl(var(--border))] p-4 text-center">
               <t.icon className="w-8 h-8 text-[hsl(var(--primary))] mx-auto mb-1.5" />
               <p className="font-semibold text-sm text-[hsl(var(--foreground))]">{t.title}</p>
               <p className="text-[10px] text-[hsl(var(--muted-foreground))] mt-0.5">{t.desc}</p>
