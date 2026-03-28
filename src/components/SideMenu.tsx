@@ -55,6 +55,18 @@ const PdfToJpgIcon = () => (
   </div>
 );
 
+const AgeCalcIcon = () => (
+  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-green-600">
+      <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+      <path d="M16 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M8 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M3 10H21" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="12" cy="16" r="2" fill="currentColor"/>
+    </svg>
+  </div>
+);
+
 const QrCodeIcon = () => (
   <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-purple-600">
@@ -146,6 +158,15 @@ const SideMenu = () => {
               >
                 <QrCodeIcon />
                 <span className="text-sm hindi-text">QR Code Generator</span>
+              </Link>
+
+              <Link
+                to="/age-calculator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <AgeCalcIcon />
+                <span className="text-sm hindi-text">Age Calculator</span>
               </Link>
             </CollapsibleContent>
           </Collapsible>
