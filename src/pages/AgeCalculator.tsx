@@ -124,21 +124,52 @@ const AgeCalculator = () => {
         <Card className="mb-6 border-border">
           <CardContent className="p-6">
             <label className="block text-sm font-medium text-foreground mb-2">
-              जन्म तिथि (Date of Birth)
+              जन्म तिथि (Date of Birth) — Date Picker
             </label>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <Input
                 type="date"
                 value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
+                onChange={(e) => { setBirthDate(e.target.value); setDay(""); setMonth(""); setYear(""); }}
                 max={new Date().toISOString().split("T")[0]}
                 className="flex-1"
               />
-              <Button onClick={handleCalculate} className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <Calculator className="h-4 w-4 mr-2" />
-                Calculate Age
-              </Button>
             </div>
+
+            <label className="block text-sm font-medium text-foreground mb-2">
+              या मैन्युअल दर्ज करें (DD / MM / YYYY)
+            </label>
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <Input
+                type="number"
+                placeholder="दिन (DD)"
+                value={day}
+                onChange={(e) => { setDay(e.target.value); setBirthDate(""); }}
+                min="1" max="31"
+                className="flex-1"
+              />
+              <Input
+                type="number"
+                placeholder="महीना (MM)"
+                value={month}
+                onChange={(e) => { setMonth(e.target.value); setBirthDate(""); }}
+                min="1" max="12"
+                className="flex-1"
+              />
+              <Input
+                type="number"
+                placeholder="साल (YYYY)"
+                value={year}
+                onChange={(e) => { setYear(e.target.value); setBirthDate(""); }}
+                min="1900" max={new Date().getFullYear()}
+                className="flex-1"
+              />
+            </div>
+
+            <Button onClick={handleCalculate} className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90">
+              <Calculator className="h-4 w-4 mr-2" />
+              Calculate Age
+            </Button>
             {error && <p className="text-destructive text-sm mt-2">{error}</p>}
           </CardContent>
         </Card>
