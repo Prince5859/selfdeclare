@@ -1101,7 +1101,7 @@ const QrCodeGenerator = () => {
 
 // Dot preview mini-component
 const DotPreview = ({ style, active }: { style: DotStyle; active: boolean }) => {
-  const color = active ? "hsl(var(--primary))" : "hsl(230,15%,30%)";
+  const color = active ? "hsl(24,100%,50%)" : "hsl(30,15%,45%)";
   const size = 6;
   const gap = 2;
 
