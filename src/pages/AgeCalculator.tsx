@@ -15,8 +15,8 @@ interface AgeResult {
   totalHours: number;
   totalMinutes: number;
   nextBirthday: number;
+  nextBirthdayDate: string;
   dayOfBirth: string;
-  zodiacSign: string;
 }
 
 const getZodiacSign = (month: number, day: number): string => {
