@@ -60,8 +60,8 @@ const calculateAge = (birthDate: Date): AgeResult => {
     totalHours,
     totalMinutes,
     nextBirthday,
+    nextBirthdayDate: nextBday.toLocaleDateString("hi-IN", { day: "numeric", month: "long", year: "numeric" }),
     dayOfBirth: days[birthDate.getDay()],
-    zodiacSign: getZodiacSign(birthDate.getMonth() + 1, birthDate.getDate()),
   };
 };
 
