@@ -158,9 +158,15 @@ const QrCodeGenerator = () => {
         break;
       }
       case "classy": {
-        ctx.fillRect(x, y, size, size);
-        // Add small notch
-        ctx.clearRect(x + size * 0.7, y, size * 0.3, size * 0.3);
+        // Draw L-shape without clearRect to avoid corrupting adjacent modules
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + size * 0.7, y);
+        ctx.lineTo(x + size * 0.7, y + size * 0.3);
+        ctx.lineTo(x + size, y + size * 0.3);
+        ctx.lineTo(x + size, y + size);
+        ctx.lineTo(x, y + size);
+        ctx.closePath();
         ctx.fill();
         break;
       }
@@ -216,7 +222,7 @@ const QrCodeGenerator = () => {
       case "fluid": {
         const cr2 = size * 0.48;
         ctx.beginPath();
-        ctx.ellipse(x + size / 2, y + size / 2, cr2, cr2 * 0.8, Math.random() * 0.3, 0, Math.PI * 2);
+        ctx.ellipse(x + size / 2, y + size / 2, cr2, cr2 * 0.85, 0, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
@@ -348,9 +354,12 @@ const QrCodeGenerator = () => {
       qr.make();
 
       const moduleCount = qr.getModuleCount();
-      const extraBottom = frameStyle !== "none" ? 40 : 0;
-      const cellSize = Math.floor((qrSize - margin * 2) / moduleCount);
-      const qrActualSize = cellSize * moduleCount + margin * 2;
+      // Use high resolution for download quality (1024px), display scaled via CSS
+      const renderSize = 1024;
+      const renderMargin = Math.round(margin * (renderSize / qrSize));
+      const extraBottom = frameStyle !== "none" ? Math.round(40 * (renderSize / qrSize)) : 0;
+      const cellSize = Math.floor((renderSize - renderMargin * 2) / moduleCount);
+      const qrActualSize = cellSize * moduleCount + renderMargin * 2;
       const canvasHeight = qrActualSize + extraBottom;
 
       const canvas = canvasRef.current;
@@ -366,7 +375,7 @@ const QrCodeGenerator = () => {
       // Draw frame background if needed
       if (frameStyle !== "none") {
         ctx.fillStyle = frameColor;
-        const pad = 6;
+        const pad = Math.round(6 * (renderSize / qrSize));
         if (frameStyle === "simple") {
           ctx.fillRect(0, 0, qrActualSize, canvasHeight);
           ctx.fillStyle = bgColor;
@@ -451,7 +460,7 @@ const QrCodeGenerator = () => {
       // Draw corners with custom style
       if (cornerStyle !== "square" || dotStyle !== "square") {
         for (const cp of cornerPositions) {
-          drawCorner(ctx, margin + cp.col * cellSize, margin + cp.row * cellSize, cellSize, cornerStyle);
+          drawCorner(ctx, renderMargin + cp.col * cellSize, renderMargin + cp.row * cellSize, cellSize, cornerStyle);
         }
       }
 
@@ -464,14 +473,14 @@ const QrCodeGenerator = () => {
               // Default corner drawing
               if (qr.isDark(row, col)) {
                 ctx.fillStyle = fgColor;
-                ctx.fillRect(margin + col * cellSize, margin + row * cellSize, cellSize, cellSize);
+                ctx.fillRect(renderMargin + col * cellSize, renderMargin + row * cellSize, cellSize, cellSize);
               }
             }
             continue;
           }
           if (qr.isDark(row, col)) {
             ctx.fillStyle = fgColor;
-            drawDot(ctx, margin + col * cellSize, margin + row * cellSize, cellSize, dotStyle);
+            drawDot(ctx, renderMargin + col * cellSize, renderMargin + row * cellSize, cellSize, dotStyle);
           }
         }
       }
@@ -519,8 +528,8 @@ const QrCodeGenerator = () => {
       for (let row = 0; row < moduleCount; row++) {
         for (let col = 0; col < moduleCount; col++) {
           if (qr.isDark(row, col)) {
-            const x = margin + col * cellSize;
-            const y = margin + row * cellSize;
+            const x = renderMargin + col * cellSize;
+            const y = renderMargin + row * cellSize;
             if (dotStyle === "dots" || dotStyle === "extra-rounded") {
               svgParts.push(`<circle cx="${x + cellSize / 2}" cy="${y + cellSize / 2}" r="${cellSize * 0.42}" fill="${fgColor}"/>`);
             } else if (dotStyle === "rounded" || dotStyle === "classy-rounded") {
