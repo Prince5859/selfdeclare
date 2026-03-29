@@ -528,8 +528,8 @@ const QrCodeGenerator = () => {
       for (let row = 0; row < moduleCount; row++) {
         for (let col = 0; col < moduleCount; col++) {
           if (qr.isDark(row, col)) {
-            const x = margin + col * cellSize;
-            const y = margin + row * cellSize;
+            const x = renderMargin + col * cellSize;
+            const y = renderMargin + row * cellSize;
             if (dotStyle === "dots" || dotStyle === "extra-rounded") {
               svgParts.push(`<circle cx="${x + cellSize / 2}" cy="${y + cellSize / 2}" r="${cellSize * 0.42}" fill="${fgColor}"/>`);
             } else if (dotStyle === "rounded" || dotStyle === "classy-rounded") {
