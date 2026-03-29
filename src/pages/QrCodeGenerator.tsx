@@ -375,7 +375,7 @@ const QrCodeGenerator = () => {
       // Draw frame background if needed
       if (frameStyle !== "none") {
         ctx.fillStyle = frameColor;
-        const pad = 6;
+        const pad = Math.round(6 * (renderSize / qrSize));
         if (frameStyle === "simple") {
           ctx.fillRect(0, 0, qrActualSize, canvasHeight);
           ctx.fillStyle = bgColor;
