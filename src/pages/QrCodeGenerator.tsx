@@ -354,9 +354,12 @@ const QrCodeGenerator = () => {
       qr.make();
 
       const moduleCount = qr.getModuleCount();
-      const extraBottom = frameStyle !== "none" ? 40 : 0;
-      const cellSize = Math.floor((qrSize - margin * 2) / moduleCount);
-      const qrActualSize = cellSize * moduleCount + margin * 2;
+      // Use high resolution for download quality (1024px), display scaled via CSS
+      const renderSize = 1024;
+      const renderMargin = Math.round(margin * (renderSize / qrSize));
+      const extraBottom = frameStyle !== "none" ? Math.round(40 * (renderSize / qrSize)) : 0;
+      const cellSize = Math.floor((renderSize - renderMargin * 2) / moduleCount);
+      const qrActualSize = cellSize * moduleCount + renderMargin * 2;
       const canvasHeight = qrActualSize + extraBottom;
 
       const canvas = canvasRef.current;
