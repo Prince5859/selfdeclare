@@ -222,7 +222,7 @@ const QrCodeGenerator = () => {
       case "fluid": {
         const cr2 = size * 0.48;
         ctx.beginPath();
-        ctx.ellipse(x + size / 2, y + size / 2, cr2, cr2 * 0.8, Math.random() * 0.3, 0, Math.PI * 2);
+        ctx.ellipse(x + size / 2, y + size / 2, cr2, cr2 * 0.85, 0, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
