@@ -158,9 +158,15 @@ const QrCodeGenerator = () => {
         break;
       }
       case "classy": {
-        ctx.fillRect(x, y, size, size);
-        // Add small notch
-        ctx.clearRect(x + size * 0.7, y, size * 0.3, size * 0.3);
+        // Draw L-shape without clearRect to avoid corrupting adjacent modules
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + size * 0.7, y);
+        ctx.lineTo(x + size * 0.7, y + size * 0.3);
+        ctx.lineTo(x + size, y + size * 0.3);
+        ctx.lineTo(x + size, y + size);
+        ctx.lineTo(x, y + size);
+        ctx.closePath();
         ctx.fill();
         break;
       }
