@@ -460,7 +460,7 @@ const QrCodeGenerator = () => {
       // Draw corners with custom style
       if (cornerStyle !== "square" || dotStyle !== "square") {
         for (const cp of cornerPositions) {
-          drawCorner(ctx, margin + cp.col * cellSize, margin + cp.row * cellSize, cellSize, cornerStyle);
+          drawCorner(ctx, renderMargin + cp.col * cellSize, renderMargin + cp.row * cellSize, cellSize, cornerStyle);
         }
       }
 
@@ -473,14 +473,14 @@ const QrCodeGenerator = () => {
               // Default corner drawing
               if (qr.isDark(row, col)) {
                 ctx.fillStyle = fgColor;
-                ctx.fillRect(margin + col * cellSize, margin + row * cellSize, cellSize, cellSize);
+                ctx.fillRect(renderMargin + col * cellSize, renderMargin + row * cellSize, cellSize, cellSize);
               }
             }
             continue;
           }
           if (qr.isDark(row, col)) {
             ctx.fillStyle = fgColor;
-            drawDot(ctx, margin + col * cellSize, margin + row * cellSize, cellSize, dotStyle);
+            drawDot(ctx, renderMargin + col * cellSize, renderMargin + row * cellSize, cellSize, dotStyle);
           }
         }
       }
