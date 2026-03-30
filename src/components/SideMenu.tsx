@@ -168,6 +168,21 @@ const SideMenu = () => {
                 <AgeCalcIcon />
                 <span className="text-sm hindi-text">Age Calculator</span>
               </Link>
+
+              <Link
+                to="/caption-generator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-pink-500">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 9h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M8 13h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <span className="text-sm hindi-text">Caption Generator</span>
+              </Link>
             </CollapsibleContent>
           </Collapsible>
           
