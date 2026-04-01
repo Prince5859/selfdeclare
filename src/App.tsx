@@ -11,6 +11,7 @@ import PdfToJpg from "./pages/PdfToJpg";
 import QrCodeGenerator from "./pages/QrCodeGenerator";
 import AgeCalculator from "./pages/AgeCalculator";
 import CaptionGenerator from "./pages/CaptionGenerator";
+import PageLayout from "./components/PageLayout";
 
 const queryClient = new QueryClient();
 
@@ -22,12 +23,12 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/image-resizer" element={<ImageResizer />} />
-          <Route path="/image-to-pdf" element={<ImageToPdf />} />
-          <Route path="/pdf-to-jpg" element={<PdfToJpg />} />
-          <Route path="/qr-code-generator" element={<QrCodeGenerator />} />
-          <Route path="/age-calculator" element={<AgeCalculator />} />
-          <Route path="/caption-generator" element={<CaptionGenerator />} />
+          <Route path="/image-resizer" element={<PageLayout><ImageResizer /></PageLayout>} />
+          <Route path="/image-to-pdf" element={<PageLayout><ImageToPdf /></PageLayout>} />
+          <Route path="/pdf-to-jpg" element={<PageLayout><PdfToJpg /></PageLayout>} />
+          <Route path="/qr-code-generator" element={<PageLayout><QrCodeGenerator /></PageLayout>} />
+          <Route path="/age-calculator" element={<PageLayout><AgeCalculator /></PageLayout>} />
+          <Route path="/caption-generator" element={<PageLayout><CaptionGenerator /></PageLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
