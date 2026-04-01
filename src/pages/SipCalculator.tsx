@@ -1,53 +1,63 @@
-import { useState } from "react";
-import { IndianRupee, TrendingUp, PiggyBank, Calendar, BarChart3 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useMemo } from "react";
+import { TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import SideMenu from "@/components/SideMenu";
 import AdBanner from "@/components/AdBanner";
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(amount);
+  "₹" + amount.toLocaleString("en-IN");
+
+const DonutChart = ({ invested, returns }: { invested: number; returns: number }) => {
+  const total = invested + returns;
+  const investedPct = total > 0 ? (invested / total) * 100 : 50;
+  const radius = 80;
+  const circumference = 2 * Math.PI * radius;
+  const investedArc = (investedPct / 100) * circumference;
+  const returnsArc = circumference - investedArc;
+
+  return (
+    <div className="relative flex items-center justify-center">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--primary))" strokeWidth="24"
+          strokeDasharray={`${investedArc} ${returnsArc}`}
+          strokeDashoffset={circumference / 4}
+          strokeLinecap="round"
+          className="transition-all duration-700"
+        />
+        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--accent, 160 60% 45%))" strokeWidth="24"
+          strokeDasharray={`${returnsArc} ${investedArc}`}
+          strokeDashoffset={circumference / 4 - investedArc}
+          strokeLinecap="round"
+          className="transition-all duration-700"
+        />
+      </svg>
+      <div className="absolute text-center">
+        <p className="text-xs text-muted-foreground">कुल वैल्यू</p>
+        <p className="text-base font-bold text-foreground">{formatCurrency(total)}</p>
+      </div>
+    </div>
+  );
+};
 
 const SipCalculator = () => {
-  const [monthlyInvestment, setMonthlyInvestment] = useState(5000);
+  const [monthlyInvestment, setMonthlyInvestment] = useState(25000);
   const [annualReturn, setAnnualReturn] = useState(12);
   const [years, setYears] = useState(10);
-  const [result, setResult] = useState<{
-    invested: number;
-    returns: number;
-    total: number;
-    yearlyBreakdown: { year: number; invested: number; value: number }[];
-  } | null>(null);
 
-  const handleCalculate = () => {
+  const result = useMemo(() => {
     const monthlyRate = annualReturn / 12 / 100;
     const totalMonths = years * 12;
     const invested = monthlyInvestment * totalMonths;
-
-    // SIP Future Value: P × [(1+r)^n - 1] / r × (1+r)
     const futureValue =
       monthlyInvestment * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate);
-
-    const yearlyBreakdown: { year: number; invested: number; value: number }[] = [];
-    for (let y = 1; y <= years; y++) {
-      const m = y * 12;
-      const inv = monthlyInvestment * m;
-      const val = monthlyInvestment * ((Math.pow(1 + monthlyRate, m) - 1) / monthlyRate) * (1 + monthlyRate);
-      yearlyBreakdown.push({ year: y, invested: inv, value: Math.round(val) });
-    }
-
-    setResult({
+    return {
       invested,
       returns: Math.round(futureValue - invested),
       total: Math.round(futureValue),
-      yearlyBreakdown,
-    });
-  };
-
-  const investedPercent = result ? (result.invested / result.total) * 100 : 0;
+    };
+  }, [monthlyInvestment, annualReturn, years]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,180 +65,133 @@ const SipCalculator = () => {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8 pt-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 mb-4">
-            <TrendingUp className="h-8 w-8 text-white" />
-          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">SIP Calculator</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             अपनी SIP निवेश की भविष्य की वैल्यू जानें
           </p>
         </div>
 
-        {/* Input Section */}
-        <Card className="mb-6 border-border">
-          <CardContent className="p-6 space-y-6">
-            {/* Monthly Investment */}
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium">मासिक निवेश (Monthly Investment)</Label>
-                <span className="text-sm font-bold text-primary">{formatCurrency(monthlyInvestment)}</span>
+        {/* Main Card - Groww Style */}
+        <Card className="border-border mb-6">
+          <CardContent className="p-6 md:p-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left - Sliders */}
+              <div className="flex-1 space-y-8">
+                {/* Monthly Investment */}
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm text-muted-foreground">Monthly investment</span>
+                    <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
+                      <span className="text-sm text-primary font-medium">₹</span>
+                      <input
+                        type="number"
+                        value={monthlyInvestment}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          if (v >= 100 && v <= 1000000) setMonthlyInvestment(v);
+                        }}
+                        className="w-20 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                      />
+                    </div>
+                  </div>
+                  <Slider
+                    value={[monthlyInvestment]}
+                    onValueChange={(v) => setMonthlyInvestment(v[0])}
+                    min={100}
+                    max={1000000}
+                    step={100}
+                  />
+                </div>
+
+                {/* Expected Return */}
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm text-muted-foreground">Expected return rate (p.a)</span>
+                    <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
+                      <input
+                        type="number"
+                        value={annualReturn}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          if (v >= 1 && v <= 30) setAnnualReturn(v);
+                        }}
+                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                      />
+                      <span className="text-sm text-primary font-medium">%</span>
+                    </div>
+                  </div>
+                  <Slider
+                    value={[annualReturn]}
+                    onValueChange={(v) => setAnnualReturn(v[0])}
+                    min={1}
+                    max={30}
+                    step={0.5}
+                  />
+                </div>
+
+                {/* Time Period */}
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm text-muted-foreground">Time period</span>
+                    <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
+                      <input
+                        type="number"
+                        value={years}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          if (v >= 1 && v <= 40) setYears(v);
+                        }}
+                        className="w-10 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                      />
+                      <span className="text-sm text-primary font-medium">Yr</span>
+                    </div>
+                  </div>
+                  <Slider
+                    value={[years]}
+                    onValueChange={(v) => setYears(v[0])}
+                    min={1}
+                    max={40}
+                    step={1}
+                  />
+                </div>
               </div>
-              <Slider
-                value={[monthlyInvestment]}
-                onValueChange={(v) => setMonthlyInvestment(v[0])}
-                min={500}
-                max={100000}
-                step={500}
-                className="mb-2"
-              />
-              <Input
-                type="number"
-                value={monthlyInvestment}
-                onChange={(e) => setMonthlyInvestment(Number(e.target.value) || 500)}
-                min={500}
-                max={100000}
-                className="mt-2"
-              />
+
+              {/* Right - Donut Chart */}
+              <div className="flex flex-col items-center justify-center gap-4">
+                {/* Legend */}
+                <div className="flex items-center gap-6 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-primary inline-block" />
+                    Invested amount
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full inline-block" style={{ background: "hsl(160, 60%, 45%)" }} />
+                    Est. returns
+                  </span>
+                </div>
+                <DonutChart invested={result.invested} returns={result.returns} />
+              </div>
             </div>
 
-            {/* Expected Return */}
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium">अपेक्षित वार्षिक रिटर्न (Expected Return %)</Label>
-                <span className="text-sm font-bold text-primary">{annualReturn}%</span>
+            {/* Bottom Summary */}
+            <div className="mt-8 pt-6 border-t border-border space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Invested amount</span>
+                <span className="text-sm font-semibold text-foreground">{formatCurrency(result.invested)}</span>
               </div>
-              <Slider
-                value={[annualReturn]}
-                onValueChange={(v) => setAnnualReturn(v[0])}
-                min={1}
-                max={30}
-                step={0.5}
-              />
-              <Input
-                type="number"
-                value={annualReturn}
-                onChange={(e) => setAnnualReturn(Number(e.target.value) || 1)}
-                min={1}
-                max={30}
-                step={0.5}
-                className="mt-2"
-              />
-            </div>
-
-            {/* Time Period */}
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <Label className="text-sm font-medium">निवेश अवधि (Time Period in Years)</Label>
-                <span className="text-sm font-bold text-primary">{years} साल</span>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Est. returns</span>
+                <span className="text-sm font-semibold text-foreground">{formatCurrency(result.returns)}</span>
               </div>
-              <Slider
-                value={[years]}
-                onValueChange={(v) => setYears(v[0])}
-                min={1}
-                max={40}
-                step={1}
-              />
-              <Input
-                type="number"
-                value={years}
-                onChange={(e) => setYears(Number(e.target.value) || 1)}
-                min={1}
-                max={40}
-                className="mt-2"
-              />
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Total value</span>
+                <span className="text-base font-bold text-foreground">{formatCurrency(result.total)}</span>
+              </div>
             </div>
-
-            <Button onClick={handleCalculate} className="w-full sm:w-auto">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Calculate SIP
-            </Button>
           </CardContent>
         </Card>
 
-        {/* Results */}
-        {result && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 p-4 text-white">
-                <div className="flex items-center gap-2 mb-2 opacity-90">
-                  <PiggyBank className="h-5 w-5" />
-                  <span className="text-xs font-medium">कुल निवेश</span>
-                </div>
-                <p className="text-lg font-bold">{formatCurrency(result.invested)}</p>
-              </div>
-              <div className="rounded-xl bg-gradient-to-br from-emerald-500 to-green-500 p-4 text-white">
-                <div className="flex items-center gap-2 mb-2 opacity-90">
-                  <TrendingUp className="h-5 w-5" />
-                  <span className="text-xs font-medium">अनुमानित रिटर्न</span>
-                </div>
-                <p className="text-lg font-bold">{formatCurrency(result.returns)}</p>
-              </div>
-              <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-500 p-4 text-white">
-                <div className="flex items-center gap-2 mb-2 opacity-90">
-                  <IndianRupee className="h-5 w-5" />
-                  <span className="text-xs font-medium">कुल वैल्यू</span>
-                </div>
-                <p className="text-lg font-bold">{formatCurrency(result.total)}</p>
-              </div>
-            </div>
-
-            {/* Visual Bar */}
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-4">निवेश vs रिटर्न</h2>
-                <div className="w-full h-8 rounded-full overflow-hidden bg-secondary flex">
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-700"
-                    style={{ width: `${investedPercent}%` }}
-                  />
-                  <div
-                    className="h-full bg-gradient-to-r from-emerald-500 to-green-500 transition-all duration-700"
-                    style={{ width: `${100 - investedPercent}%` }}
-                  />
-                </div>
-                <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                  <span>🔵 निवेश: {investedPercent.toFixed(1)}%</span>
-                  <span>🟢 रिटर्न: {(100 - investedPercent).toFixed(1)}%</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Year-wise Breakdown */}
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5" />
-                  साल-वार ब्रेकडाउन
-                </h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-left py-2 px-2 text-muted-foreground font-medium">साल</th>
-                        <th className="text-right py-2 px-2 text-muted-foreground font-medium">निवेश</th>
-                        <th className="text-right py-2 px-2 text-muted-foreground font-medium">वैल्यू</th>
-                        <th className="text-right py-2 px-2 text-muted-foreground font-medium">रिटर्न</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {result.yearlyBreakdown.map((row) => (
-                        <tr key={row.year} className="border-b border-border/50 hover:bg-secondary/30">
-                          <td className="py-2 px-2">{row.year}</td>
-                          <td className="text-right py-2 px-2">{formatCurrency(row.invested)}</td>
-                          <td className="text-right py-2 px-2 font-medium text-primary">{formatCurrency(row.value)}</td>
-                          <td className="text-right py-2 px-2 text-emerald-600">{formatCurrency(row.value - row.invested)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-
-            <AdBanner />
-          </div>
-        )}
+        <AdBanner />
       </div>
     </div>
   );
