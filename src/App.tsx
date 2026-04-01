@@ -11,6 +11,7 @@ import PdfToJpg from "./pages/PdfToJpg";
 import QrCodeGenerator from "./pages/QrCodeGenerator";
 import AgeCalculator from "./pages/AgeCalculator";
 import CaptionGenerator from "./pages/CaptionGenerator";
+import SipCalculator from "./pages/SipCalculator";
 import PageLayout from "./components/PageLayout";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/qr-code-generator" element={<PageLayout><QrCodeGenerator /></PageLayout>} />
           <Route path="/age-calculator" element={<PageLayout><AgeCalculator /></PageLayout>} />
           <Route path="/caption-generator" element={<PageLayout><CaptionGenerator /></PageLayout>} />
+          <Route path="/sip-calculator" element={<PageLayout><SipCalculator /></PageLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
