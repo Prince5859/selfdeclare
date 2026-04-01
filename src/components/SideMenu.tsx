@@ -183,6 +183,19 @@ const SideMenu = () => {
                 </div>
                 <span className="text-sm hindi-text">Caption Generator</span>
               </Link>
+
+              <Link
+                to="/sip-calculator"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors group"
+              >
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-emerald-600">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span className="text-sm hindi-text">SIP Calculator</span>
+              </Link>
             </CollapsibleContent>
           </Collapsible>
           

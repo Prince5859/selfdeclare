@@ -30,6 +30,7 @@ const App = () => (
           <Route path="/qr-code-generator" element={<PageLayout><QrCodeGenerator /></PageLayout>} />
           <Route path="/age-calculator" element={<PageLayout><AgeCalculator /></PageLayout>} />
           <Route path="/caption-generator" element={<PageLayout><CaptionGenerator /></PageLayout>} />
+          <Route path="/sip-calculator" element={<PageLayout><SipCalculator /></PageLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
