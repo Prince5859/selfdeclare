@@ -11,6 +11,7 @@ import PdfToJpg from "./pages/PdfToJpg";
 import QrCodeGenerator from "./pages/QrCodeGenerator";
 import AgeCalculator from "./pages/AgeCalculator";
 import CaptionGenerator from "./pages/CaptionGenerator";
+import SipCalculator from "./pages/SipCalculator";
 import PageLayout from "./components/PageLayout";
 
 const queryClient = new QueryClient();
