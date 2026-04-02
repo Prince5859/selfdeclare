@@ -46,6 +46,11 @@ const SipCalculator = () => {
   const [annualReturn, setAnnualReturn] = useState(12);
   const [years, setYears] = useState(10);
 
+  // String states for free typing
+  const [monthlyStr, setMonthlyStr] = useState("25000");
+  const [returnStr, setReturnStr] = useState("12");
+  const [yearsStr, setYearsStr] = useState("10");
+
   const result = useMemo(() => {
     const monthlyRate = annualReturn / 12 / 100;
     const totalMonths = years * 12;
@@ -84,19 +89,27 @@ const SipCalculator = () => {
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                       <span className="text-sm text-primary font-medium">₹</span>
                        <input
-                        type="number"
-                        value={monthlyInvestment}
+                        type="text"
+                        inputMode="numeric"
+                        value={monthlyStr}
                         onChange={(e) => {
-                          const v = Number(e.target.value);
-                          if (!isNaN(v)) setMonthlyInvestment(Math.min(1000000, Math.max(100, v)));
+                          const raw = e.target.value.replace(/[^0-9]/g, '');
+                          setMonthlyStr(raw);
+                          const v = Number(raw);
+                          if (v > 0) setMonthlyInvestment(Math.min(1000000, v));
                         }}
-                        className="w-24 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        onBlur={() => {
+                          const v = Math.min(1000000, Math.max(100, Number(monthlyStr) || 100));
+                          setMonthlyInvestment(v);
+                          setMonthlyStr(String(v));
+                        }}
+                        className="w-24 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text"
                       />
                     </div>
                   </div>
                   <Slider
                     value={[monthlyInvestment]}
-                    onValueChange={(v) => setMonthlyInvestment(v[0])}
+                    onValueChange={(v) => { setMonthlyInvestment(v[0]); setMonthlyStr(String(v[0])); }}
                     min={100}
                     max={1000000}
                     step={100}
@@ -109,20 +122,28 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Expected return rate (p.a)</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                        <input
-                        type="number"
-                        value={annualReturn}
+                        type="text"
+                        inputMode="decimal"
+                        value={returnStr}
                         onChange={(e) => {
-                          const v = Number(e.target.value);
-                          if (!isNaN(v)) setAnnualReturn(Math.min(30, Math.max(1, v)));
+                          const raw = e.target.value.replace(/[^0-9.]/g, '');
+                          setReturnStr(raw);
+                          const v = Number(raw);
+                          if (v > 0) setAnnualReturn(Math.min(30, v));
                         }}
-                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        onBlur={() => {
+                          const v = Math.min(30, Math.max(1, Number(returnStr) || 1));
+                          setAnnualReturn(v);
+                          setReturnStr(String(v));
+                        }}
+                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text"
                       />
                       <span className="text-sm text-primary font-medium">%</span>
                     </div>
                   </div>
                   <Slider
                     value={[annualReturn]}
-                    onValueChange={(v) => setAnnualReturn(v[0])}
+                    onValueChange={(v) => { setAnnualReturn(v[0]); setReturnStr(String(v[0])); }}
                     min={1}
                     max={30}
                     step={0.5}
@@ -135,20 +156,28 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Time period</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                        <input
-                        type="number"
-                        value={years}
+                        type="text"
+                        inputMode="numeric"
+                        value={yearsStr}
                         onChange={(e) => {
-                          const v = Number(e.target.value);
-                          if (!isNaN(v)) setYears(Math.min(40, Math.max(1, v)));
+                          const raw = e.target.value.replace(/[^0-9]/g, '');
+                          setYearsStr(raw);
+                          const v = Number(raw);
+                          if (v > 0) setYears(Math.min(40, v));
                         }}
-                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        onBlur={() => {
+                          const v = Math.min(40, Math.max(1, Number(yearsStr) || 1));
+                          setYears(v);
+                          setYearsStr(String(v));
+                        }}
+                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text"
                       />
                       <span className="text-sm text-primary font-medium">Yr</span>
                     </div>
                   </div>
                   <Slider
                     value={[years]}
-                    onValueChange={(v) => setYears(v[0])}
+                    onValueChange={(v) => { setYears(v[0]); setYearsStr(String(v[0])); }}
                     min={1}
                     max={40}
                     step={1}
