@@ -83,14 +83,14 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Monthly investment</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                       <span className="text-sm text-primary font-medium">₹</span>
-                      <input
+                       <input
                         type="number"
                         value={monthlyInvestment}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 100 && v <= 1000000) setMonthlyInvestment(v);
+                          if (!isNaN(v)) setMonthlyInvestment(Math.min(1000000, Math.max(100, v)));
                         }}
-                        className="w-20 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-24 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                     </div>
                   </div>
