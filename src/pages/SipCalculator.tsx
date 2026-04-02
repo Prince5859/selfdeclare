@@ -177,7 +177,7 @@ const SipCalculator = () => {
                   </div>
                   <Slider
                     value={[years]}
-                    onValueChange={(v) => setYears(v[0])}
+                    onValueChange={(v) => { setYears(v[0]); setYearsStr(String(v[0])); }}
                     min={1}
                     max={40}
                     step={1}
