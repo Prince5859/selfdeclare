@@ -165,7 +165,7 @@ const SipCalculator = () => {
                     Invested amount
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full inline-block" style={{ background: "hsl(160, 60%, 45%)" }} />
+                    <span className="w-3 h-3 rounded-full inline-block bg-[hsl(var(--green-india))]" />
                     Est. returns
                   </span>
                 </div>
