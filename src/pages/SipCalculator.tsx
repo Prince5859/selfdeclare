@@ -134,14 +134,14 @@ const SipCalculator = () => {
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Time period</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
-                      <input
+                       <input
                         type="number"
                         value={years}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 1 && v <= 40) setYears(v);
+                          if (!isNaN(v)) setYears(Math.min(40, Math.max(1, v)));
                         }}
-                        className="w-10 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="text-sm text-primary font-medium">Yr</span>
                     </div>
