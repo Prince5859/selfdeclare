@@ -156,13 +156,21 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Time period</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                        <input
-                        type="number"
-                        value={years}
+                        type="text"
+                        inputMode="numeric"
+                        value={yearsStr}
                         onChange={(e) => {
-                          const v = Number(e.target.value);
-                          if (!isNaN(v)) setYears(Math.min(40, Math.max(1, v)));
+                          const raw = e.target.value.replace(/[^0-9]/g, '');
+                          setYearsStr(raw);
+                          const v = Number(raw);
+                          if (v > 0) setYears(Math.min(40, v));
                         }}
-                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        onBlur={() => {
+                          const v = Math.min(40, Math.max(1, Number(yearsStr) || 1));
+                          setYears(v);
+                          setYearsStr(String(v));
+                        }}
+                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text"
                       />
                       <span className="text-sm text-primary font-medium">Yr</span>
                     </div>
