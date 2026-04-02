@@ -26,7 +26,7 @@ const DonutChart = ({ invested, returns }: { invested: number; returns: number }
           strokeLinecap="round"
           className="transition-all duration-700"
         />
-        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--accent, 160 60% 45%))" strokeWidth="24"
+        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--green-india))" strokeWidth="24"
           strokeDasharray={`${returnsArc} ${investedArc}`}
           strokeDashoffset={circumference / 4 - investedArc}
           strokeLinecap="round"
@@ -83,14 +83,14 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Monthly investment</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                       <span className="text-sm text-primary font-medium">₹</span>
-                      <input
+                       <input
                         type="number"
                         value={monthlyInvestment}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 100 && v <= 1000000) setMonthlyInvestment(v);
+                          if (!isNaN(v)) setMonthlyInvestment(Math.min(1000000, Math.max(100, v)));
                         }}
-                        className="w-20 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-24 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                     </div>
                   </div>
@@ -108,14 +108,14 @@ const SipCalculator = () => {
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Expected return rate (p.a)</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
-                      <input
+                       <input
                         type="number"
                         value={annualReturn}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 1 && v <= 30) setAnnualReturn(v);
+                          if (!isNaN(v)) setAnnualReturn(Math.min(30, Math.max(1, v)));
                         }}
-                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="text-sm text-primary font-medium">%</span>
                     </div>
@@ -134,14 +134,14 @@ const SipCalculator = () => {
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Time period</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
-                      <input
+                       <input
                         type="number"
                         value={years}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 1 && v <= 40) setYears(v);
+                          if (!isNaN(v)) setYears(Math.min(40, Math.max(1, v)));
                         }}
-                        className="w-10 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="text-sm text-primary font-medium">Yr</span>
                     </div>
@@ -165,7 +165,7 @@ const SipCalculator = () => {
                     Invested amount
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full inline-block" style={{ background: "hsl(160, 60%, 45%)" }} />
+                    <span className="w-3 h-3 rounded-full inline-block bg-[hsl(var(--green-india))]" />
                     Est. returns
                   </span>
                 </div>
