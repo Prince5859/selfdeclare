@@ -122,13 +122,21 @@ const SipCalculator = () => {
                     <span className="text-sm text-muted-foreground">Expected return rate (p.a)</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
                        <input
-                        type="number"
-                        value={annualReturn}
+                        type="text"
+                        inputMode="decimal"
+                        value={returnStr}
                         onChange={(e) => {
-                          const v = Number(e.target.value);
-                          if (!isNaN(v)) setAnnualReturn(Math.min(30, Math.max(1, v)));
+                          const raw = e.target.value.replace(/[^0-9.]/g, '');
+                          setReturnStr(raw);
+                          const v = Number(raw);
+                          if (v > 0) setAnnualReturn(Math.min(30, v));
                         }}
-                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        onBlur={() => {
+                          const v = Math.min(30, Math.max(1, Number(returnStr) || 1));
+                          setAnnualReturn(v);
+                          setReturnStr(String(v));
+                        }}
+                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text"
                       />
                       <span className="text-sm text-primary font-medium">%</span>
                     </div>
