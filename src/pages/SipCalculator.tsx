@@ -46,6 +46,11 @@ const SipCalculator = () => {
   const [annualReturn, setAnnualReturn] = useState(12);
   const [years, setYears] = useState(10);
 
+  // String states for free typing
+  const [monthlyStr, setMonthlyStr] = useState("25000");
+  const [returnStr, setReturnStr] = useState("12");
+  const [yearsStr, setYearsStr] = useState("10");
+
   const result = useMemo(() => {
     const monthlyRate = annualReturn / 12 / 100;
     const totalMonths = years * 12;
