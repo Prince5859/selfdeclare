@@ -109,7 +109,7 @@ const SipCalculator = () => {
                   </div>
                   <Slider
                     value={[monthlyInvestment]}
-                    onValueChange={(v) => setMonthlyInvestment(v[0])}
+                    onValueChange={(v) => { setMonthlyInvestment(v[0]); setMonthlyStr(String(v[0])); }}
                     min={100}
                     max={1000000}
                     step={100}
