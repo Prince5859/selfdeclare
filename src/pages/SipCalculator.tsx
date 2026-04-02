@@ -108,14 +108,14 @@ const SipCalculator = () => {
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Expected return rate (p.a)</span>
                     <div className="flex items-center gap-1 bg-secondary/60 rounded-md px-3 py-1.5">
-                      <input
+                       <input
                         type="number"
                         value={annualReturn}
                         onChange={(e) => {
                           const v = Number(e.target.value);
-                          if (v >= 1 && v <= 30) setAnnualReturn(v);
+                          if (!isNaN(v)) setAnnualReturn(Math.min(30, Math.max(1, v)));
                         }}
-                        className="w-12 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none"
+                        className="w-14 text-right text-sm font-semibold text-primary bg-transparent border-none outline-none cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="text-sm text-primary font-medium">%</span>
                     </div>
