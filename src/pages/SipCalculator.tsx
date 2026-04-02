@@ -26,7 +26,7 @@ const DonutChart = ({ invested, returns }: { invested: number; returns: number }
           strokeLinecap="round"
           className="transition-all duration-700"
         />
-        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--accent, 160 60% 45%))" strokeWidth="24"
+        <circle cx="100" cy="100" r={radius} fill="none" stroke="hsl(var(--green-india))" strokeWidth="24"
           strokeDasharray={`${returnsArc} ${investedArc}`}
           strokeDashoffset={circumference / 4 - investedArc}
           strokeLinecap="round"
