@@ -143,7 +143,7 @@ const SipCalculator = () => {
                   </div>
                   <Slider
                     value={[annualReturn]}
-                    onValueChange={(v) => setAnnualReturn(v[0])}
+                    onValueChange={(v) => { setAnnualReturn(v[0]); setReturnStr(String(v[0])); }}
                     min={1}
                     max={30}
                     step={0.5}
