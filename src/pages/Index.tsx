@@ -465,6 +465,19 @@ const Index = () => {
                 )}
               </button>
               
+              {/* Video Ad - Mobile */}
+              <div className="mt-3 flex justify-center">
+                <video
+                  src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full max-w-[320px] rounded-lg"
+                  style={{ aspectRatio: '1920/274' }}
+                />
+              </div>
+              
               {/* Adsterra Ad Section - Mobile */}
               <div className="mt-3">
                 <AdsterraAd />
