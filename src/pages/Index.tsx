@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
 import SideMenu from "@/components/SideMenu";
 
-// Adsterra Banner Ad Component
-const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
+// Adsterra Banner Ad Component with load detection
+const AdsterraBanner = ({ isMobile, onFail }: { isMobile: boolean; onFail?: () => void }) => {
   const adRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,21 +14,32 @@ const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
     const key = isMobile ? 'd98482b0935791ef833a2417eb9c4900' : 'c00469cb94eb0adb924b5a29ad345568';
     const width = isMobile ? 320 : 728;
     const height = isMobile ? 50 : 90;
-    adRef.current.innerHTML = '';
+    const container = adRef.current;
+    container.innerHTML = '';
     const configScript = document.createElement('script');
     configScript.type = 'text/javascript';
     configScript.innerHTML = `atOptions = { 'key' : '${key}', 'format' : 'iframe', 'height' : ${height}, 'width' : ${width}, 'params' : {} };`;
     const invokeScript = document.createElement('script');
     invokeScript.type = 'text/javascript';
     invokeScript.src = `//www.highperformanceformat.com/${key}/invoke.js`;
-    adRef.current.appendChild(configScript);
-    adRef.current.appendChild(invokeScript);
-  }, [isMobile]);
+    invokeScript.onerror = () => onFail?.();
+    container.appendChild(configScript);
+    container.appendChild(invokeScript);
+
+    // Fallback: if iframe doesn't appear within 3s, treat as failed
+    const timer = setTimeout(() => {
+      const iframe = container.querySelector('iframe');
+      if (!iframe || (iframe as HTMLIFrameElement).offsetHeight < 10) {
+        onFail?.();
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isMobile, onFail]);
 
   return <div ref={adRef} className="flex justify-center" style={{ minHeight: isMobile ? 50 : 90 }} />;
 };
 
-// Rotating Ad: alternates between video and Adsterra banner
+// Rotating Ad: alternates between video and Adsterra banner, falls back to video if Adsterra fails
 const VideoAd = () => {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [showVideo, setShowVideo] = useState(true);
@@ -44,6 +55,8 @@ const VideoAd = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleAdFail = () => setShowVideo(true);
+
   return (
     <div className="flex justify-center">
       {showVideo ? (
@@ -58,7 +71,7 @@ const VideoAd = () => {
           style={{ aspectRatio: '1920/274' }}
         />
       ) : (
-        <AdsterraBanner key="adsterra-ad" isMobile={isMobile} />
+        <AdsterraBanner key="adsterra-ad" isMobile={isMobile} onFail={handleAdFail} />
       )}
     </div>
   );
