@@ -451,20 +451,9 @@ const Index = () => {
               </button>
               
               {/* Video Ad - Desktop */}
-              <div className="mt-3 flex justify-center">
-                <video
-                  src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full max-w-[728px] rounded-lg"
-                  style={{ aspectRatio: '1920/274' }}
-                />
+              <div className="mt-3">
+                <VideoAd />
               </div>
-              
-              {/* Adsterra Ad Section - Desktop */}
-              <AdsterraAd />
             </div>
             
             <div className="bg-card rounded-xl p-4 shadow-lg border border-border animate-fade-in relative">
