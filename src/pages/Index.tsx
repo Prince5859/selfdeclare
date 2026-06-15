@@ -5,29 +5,61 @@ import { toast } from "sonner";
 import { useNewYearTheme } from "@/hooks/useNewYearTheme";
 import SideMenu from "@/components/SideMenu";
 
-// Responsive Video Ad Component - Mobile 320px, Desktop 728px
-const VideoAd = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+// Adsterra Banner Ad Component
+const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
+  const adRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    if (!adRef.current) return;
+    const key = isMobile ? 'd98482b0935791ef833a2417eb9c4900' : 'c00469cb94eb0adb924b5a29ad345568';
+    const width = isMobile ? 320 : 728;
+    const height = isMobile ? 50 : 90;
+    adRef.current.innerHTML = '';
+    const configScript = document.createElement('script');
+    configScript.type = 'text/javascript';
+    configScript.innerHTML = `atOptions = { 'key' : '${key}', 'format' : 'iframe', 'height' : ${height}, 'width' : ${width}, 'params' : {} };`;
+    const invokeScript = document.createElement('script');
+    invokeScript.type = 'text/javascript';
+    invokeScript.src = `//www.highperformanceformat.com/${key}/invoke.js`;
+    adRef.current.appendChild(configScript);
+    adRef.current.appendChild(invokeScript);
+  }, [isMobile]);
+
+  return <div ref={adRef} className="flex justify-center" style={{ minHeight: isMobile ? 50 : 90 }} />;
+};
+
+// Rotating Ad: alternates between video and Adsterra banner
+const VideoAd = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  const [showVideo, setShowVideo] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => setShowVideo((v) => !v), 10000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="flex justify-center">
-      <video
-        src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className={`w-full rounded-lg ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
-        style={{ aspectRatio: '1920/274' }}
-      />
+      {showVideo ? (
+        <video
+          key="video-ad"
+          src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className={`w-full rounded-lg ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
+          style={{ aspectRatio: '1920/274' }}
+        />
+      ) : (
+        <AdsterraBanner key="adsterra-ad" isMobile={isMobile} />
+      )}
     </div>
   );
 };
