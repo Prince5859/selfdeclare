@@ -28,8 +28,8 @@ const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
   return <div ref={adRef} className="flex justify-center" style={{ minHeight: isMobile ? 50 : 90 }} />;
 };
 
-// Video Ad Component — replaces Adsterra banner placement
-const VideoAd = () => {
+// Combined Ad Component — shows both Adsterra banner and video ad stacked
+const CombinedAd = () => {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
@@ -39,17 +39,19 @@ const VideoAd = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-center overflow-hidden rounded-lg border border-border/40">
-      <video
-        key="video-ad"
-        src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className={`w-full ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
-        style={{ aspectRatio: '1920/274' }}
-      />
+    <div className="w-full flex flex-col items-center gap-2">
+      <AdsterraBanner isMobile={isMobile} />
+      <div className="w-full flex justify-center overflow-hidden rounded-lg border border-border/40" style={{ maxWidth: isMobile ? 320 : 728 }}>
+        <video
+          src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full"
+          style={{ aspectRatio: '1920/274' }}
+        />
+      </div>
     </div>
   );
 };
