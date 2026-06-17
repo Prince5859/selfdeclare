@@ -28,8 +28,8 @@ const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
   return <div ref={adRef} className="flex justify-center" style={{ minHeight: isMobile ? 50 : 90 }} />;
 };
 
-// Ad Block: shows both video and banner ads stacked like typical ad placements
-const AdBlock = () => {
+// Video Ad Component — replaces Adsterra banner placement
+const VideoAd = () => {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
@@ -39,23 +39,17 @@ const AdBlock = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      {/* Video Ad */}
-      <div className="w-full flex justify-center overflow-hidden rounded-lg border border-border/40">
-        <video
-          key="video-ad"
-          src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className={`w-full ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
-          style={{ aspectRatio: '1920/274' }}
-        />
-      </div>
-
-      {/* Adsterra Banner Ad */}
-      <AdsterraBanner isMobile={isMobile} />
+    <div className="w-full flex justify-center overflow-hidden rounded-lg border border-border/40">
+      <video
+        key="video-ad"
+        src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={`w-full ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
+        style={{ aspectRatio: '1920/274' }}
+      />
     </div>
   );
 };
@@ -452,7 +446,7 @@ const Index = () => {
               
               {/* Ads - Mobile */}
               <div className="mt-3">
-                <AdBlock />
+                <VideoAd />
               </div>
             </div>
           </div>
@@ -480,7 +474,7 @@ const Index = () => {
               
               {/* Ads - Desktop */}
               <div className="mt-3">
-                <AdBlock />
+                <VideoAd />
               </div>
             </div>
             
