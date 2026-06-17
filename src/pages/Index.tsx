@@ -476,7 +476,7 @@ const Index = () => {
               
               {/* Ads - Desktop */}
               <div className="mt-3">
-                <VideoAd />
+                <CombinedAd />
               </div>
             </div>
             
