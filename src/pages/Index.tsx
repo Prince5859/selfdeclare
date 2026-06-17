@@ -28,10 +28,9 @@ const AdsterraBanner = ({ isMobile }: { isMobile: boolean }) => {
   return <div ref={adRef} className="flex justify-center" style={{ minHeight: isMobile ? 50 : 90 }} />;
 };
 
-// Rotating Ad: alternates between video and Adsterra banner
-const VideoAd = () => {
+// Ad Block: shows both video and banner ads stacked like typical ad placements
+const AdBlock = () => {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  const [showVideo, setShowVideo] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -39,14 +38,10 @@ const VideoAd = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => setShowVideo((v) => !v), 10000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="flex justify-center">
-      {showVideo ? (
+    <div className="flex flex-col items-center gap-3">
+      {/* Video Ad */}
+      <div className="w-full flex justify-center overflow-hidden rounded-lg border border-border/40">
         <video
           key="video-ad"
           src="/__l5e/assets-v1/174b51b7-a131-4cdc-b45a-6a896f6dba78/shop_now_ad.mp4"
@@ -54,12 +49,13 @@ const VideoAd = () => {
           muted
           loop
           playsInline
-          className={`w-full rounded-lg ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
+          className={`w-full ${isMobile ? 'max-w-[320px]' : 'max-w-[728px]'}`}
           style={{ aspectRatio: '1920/274' }}
         />
-      ) : (
-        <AdsterraBanner key="adsterra-ad" isMobile={isMobile} />
-      )}
+      </div>
+
+      {/* Adsterra Banner Ad */}
+      <AdsterraBanner isMobile={isMobile} />
     </div>
   );
 };
@@ -454,9 +450,9 @@ const Index = () => {
                 )}
               </button>
               
-              {/* Video Ad - Mobile */}
+              {/* Ads - Mobile */}
               <div className="mt-3">
-                <VideoAd />
+                <AdBlock />
               </div>
             </div>
           </div>
@@ -482,9 +478,9 @@ const Index = () => {
                 )}
               </button>
               
-              {/* Video Ad - Desktop */}
+              {/* Ads - Desktop */}
               <div className="mt-3">
-                <VideoAd />
+                <AdBlock />
               </div>
             </div>
             
