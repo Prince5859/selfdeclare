@@ -446,7 +446,7 @@ const Index = () => {
               
               {/* Ads - Mobile */}
               <div className="mt-3">
-                <AdBlock />
+                <VideoAd />
               </div>
             </div>
           </div>
