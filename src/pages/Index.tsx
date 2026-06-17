@@ -450,9 +450,9 @@ const Index = () => {
                 )}
               </button>
               
-              {/* Video Ad - Mobile */}
+              {/* Ads - Mobile */}
               <div className="mt-3">
-                <VideoAd />
+                <AdBlock />
               </div>
             </div>
           </div>
@@ -478,9 +478,9 @@ const Index = () => {
                 )}
               </button>
               
-              {/* Video Ad - Desktop */}
+              {/* Ads - Desktop */}
               <div className="mt-3">
-                <VideoAd />
+                <AdBlock />
               </div>
             </div>
             
